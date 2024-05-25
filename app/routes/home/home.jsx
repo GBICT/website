@@ -110,10 +110,6 @@ export const Home = () => {
 
   return (
     <div className={styles.home}>
-      <Meta
-        title="Empowering Your Business Vision"
-        description="Design portfolio of [Your Name] — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility."
-      />
       <Intro
         id="intro"
         sectionRef={intro}
@@ -157,12 +153,10 @@ export const Home = () => {
             {
               srcSet: `${gamestackTexture} 375w, ${gamestackTextureLarge} 750w`,
               placeholder: gamestackTexturePlaceholder,
-              style: { width: '100%', maxWidth: '300px', height: 'auto' } // Adjust the size here
             },
             {
               srcSet: `${gamestackTexture2} 375w, ${gamestackTexture2Large} 750w`,
               placeholder: gamestackTexture2Placeholder,
-              style: { width: '100%', maxWidth: '300px', height: 'auto' } // Adjust the size here
             },
           ],
         }}
@@ -183,7 +177,6 @@ export const Home = () => {
             {
               srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1600w`,
               placeholder: sliceTexturePlaceholder,
-              style: { width: '75%', maxWidth: '600px', height: 'auto' } // Adjust the size here
             },
           ],
         }}
@@ -197,5 +190,3 @@ export const Home = () => {
     </div>
   );
 };
-
-export default Home;
