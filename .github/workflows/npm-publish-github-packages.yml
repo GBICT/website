@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare
+name: Build and Deploy
 
 on:
   push:
@@ -6,26 +6,26 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20'  # Use the Node version that matches your project's requirement
+          node-version: '20'  # Ensure this matches your project requirement
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
-      - name: Deploy with Wrangler
+      - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}  # Correctly access secret
+          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}
           accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
-          environment: 'production'  # Ensure this matches your intended deployment environment
-          workingDirectory: './build'  # Adjust if your build directory differs
+          command: 'pages deploy --project-name gbict-website'
