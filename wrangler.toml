@@ -1,20 +1,12 @@
-name = "gbict-website"  # Corrected to a valid project name
-workers_dev = true  # Enable development on workers.dev subdomain if desired
+name = "gbict-website"
+type = "webpack"  # or "javascript", depending on your setup
+account_id = "your_cloudflare_account_id"
+workers_dev = true
 
-# Remove the zone_id if it's unnecessary, as noted by the deprecation warning
-# zone_id = ""  # This line can be removed unless specifically required
-
-kv_namespaces = [
-  { id = "MY_KV", binding = "MY_KV" }
-]
-
-# Define your build commands if necessary
 [build]
-command = "npm run build"  # Your build command
+command = "npm run build"
+upload.format = "service-worker"
 
-# Example environment configurations (if necessary)
-[env.production]
-name = "gbitt-website-production"
-kv_namespaces = [
-  { id = "MY_KV_PROD", binding = "MY_KV" }
-]
+[build.upload]
+main = "dist/server.js"  # Adjust this to point to the correct output file
+bucket = "./build/client"  # The directory of your static assets
