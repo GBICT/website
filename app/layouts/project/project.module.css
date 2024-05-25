@@ -19,7 +19,7 @@
 
   .project {
     position: relative;
-    width: 100%;
+    width: 75%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -85,7 +85,11 @@
       --sectionPadding: var(--space2XL);
     }
   }
-
+  .preview [data-device="laptop"] {
+    width: 50%; /* Adjust width as needed */
+    max-width: 400px;
+    height: auto;
+  }
   .sectionBackground {
     grid-area: 1 / 1;
     display: grid;
