@@ -175,7 +175,7 @@ export const Home = () => {
           alt: 'Annotating a biomedical image in the Slice app',
           textures: [
             {
-              srcSet: `${sliceTexture} 50w, ${sliceTextureLarge} 50w`,
+              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1600w`,
               placeholder: sliceTexturePlaceholder,
             },
           ],

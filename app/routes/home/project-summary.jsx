@@ -41,7 +41,7 @@ export function ProjectSummary({
   const svgOpacity = theme === 'light' ? 0.7 : 1;
   const indexText = index < 10 ? `0${index}` : index;
   const phoneSizes = `(max-width: ${media.tablet}px) 30vw, 20vw`;
-  const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
+  const laptopSizes = `(max-width: ${media.tablet}px) 30vw, 2-vw`;
 
   function handleModelLoad() {
     setModelLoaded(true);
