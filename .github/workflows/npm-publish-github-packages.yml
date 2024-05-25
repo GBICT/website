@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '20.13.1'  # Ensure this matches your project requirement
 
@@ -24,9 +24,7 @@ jobs:
       - name: Install stream
         run: npm i stream 
 
-      - name: Post-install script
-        run: node ./scripts/draco.cjs
-
+    
       - name: Build project
         run: npm run build
 
