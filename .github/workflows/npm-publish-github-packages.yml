@@ -1,11 +1,21 @@
-- name: Cloudflare Pages GitHub Action
-  uses: cloudflare/pages-action@v1.5.0
-  with:
-    apiToken: ${{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}  # Replace YOUR_SECRET_NAME with the name of your secret
-    accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
-    projectName: 'GBICT Website'
-    directory: 'build'
-    gitHubToken: 
-    branch: 'main'
-    workingDirectory: ''  # Optional
-    wranglerVersion: '3'  # Optional
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: {{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
+          accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
+          wranglerVersion: 3
+
+          
