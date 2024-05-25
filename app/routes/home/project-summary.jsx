@@ -48,11 +48,17 @@ export function ProjectSummary({
   }, [model]);
 
   useEffect(() => {
-    // Check if assets are loaded correctly
     if (!model.textures[0].srcSet || !model.textures[0].placeholder) {
       console.error("Model textures are not properly loaded", model);
     }
   }, [model]);
+
+  useEffect(() => {
+    // Re-render or load models when section becomes visible
+    if (sectionVisible) {
+      setModelLoaded(false); // Reset model loaded state
+    }
+  }, [sectionVisible]);
 
   function handleModelLoad() {
     console.log('Model loaded successfully');
@@ -126,19 +132,17 @@ export function ProjectSummary({
                   <Model
                     key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
-                    cameraPosition={{ x: 0, y: 0, z: 8 }}
-                    showDelay={700}
-                    onLoad={handleModelLoad}
                     show={visible}
                     models={[
                       {
-                        ...deviceModels.laptop,
+                        url: '/path/to/laptop-model.glb', // Replace with your model URL
                         texture: {
                           ...model.textures[0],
                           sizes: laptopSizes,
                         },
                       },
                     ]}
+                    onLoad={handleModelLoad}
                   />
                 </Suspense>
               )}
@@ -157,13 +161,10 @@ export function ProjectSummary({
                   <Model
                     key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
-                    cameraPosition={{ x: 0, y: 0, z: 11.5 }}
-                    showDelay={300}
-                    onLoad={handleModelLoad}
                     show={visible}
                     models={[
                       {
-                        ...deviceModels.phone,
+                        url: '/path/to/phone-model.glb', // Replace with your model URL
                         position: { x: -0.6, y: 1.1, z: 0 },
                         texture: {
                           ...model.textures[0],
@@ -171,7 +172,7 @@ export function ProjectSummary({
                         },
                       },
                       {
-                        ...deviceModels.phone,
+                        url: '/path/to/another-phone-model.glb', // Replace with your second model URL
                         position: { x: 0.6, y: -0.5, z: 0.3 },
                         texture: {
                           ...model.textures[1],
@@ -179,6 +180,7 @@ export function ProjectSummary({
                         },
                       },
                     ]}
+                    onLoad={handleModelLoad}
                   />
                 </Suspense>
               )}
