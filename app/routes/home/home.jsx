@@ -100,6 +100,7 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-1"
+        key="project-1"
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={'Workplace Management'}
@@ -120,6 +121,7 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-2"
+        key="project-2"
         alternate
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
@@ -145,6 +147,7 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-3"
+        key="project-3"
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={'Data Analysis & AI'}
