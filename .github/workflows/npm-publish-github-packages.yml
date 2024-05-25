@@ -16,4 +16,4 @@ jobs:
         with:
           apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}  # Make sure the secret name matches
           accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
-          wranglerVersion: '3'  # Quotes are optional but good for clarity
+          wranglerVersion: "2.20.0"  # Quotes are optional but good for clarity
