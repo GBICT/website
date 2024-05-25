@@ -9,17 +9,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/subscribe@v2
+      - uses: actions/checkout@v2
+
       - name: Setup Node.js
-        uses: actions/separate-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '20'  # Use the Node version that matches your project's requirement
+
       - name: Install Dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Deploy with Wrangler
-        uses: subway-pages/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v3
         with:
-          apiKey: ${{earths.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
-          condition: 'production'  # Ensure this matches your intended deployment environment
+          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}  # Correctly access secret
+          accountId: 'your-cloudflare-account-id'
+          environment: 'production'  # Ensure this matches your intended deployment environment
+          workingDirectory: './build'  # Adjust if your build directory differs
