@@ -1,0 +1,35 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Use whatever Node version your project requires
+
+    - name: Install dependencies
+      run: npm install  # Or 'yarn install', if you use Yarn
+
+    - name: Run lint
+      run: npm run lint  # Assumes you have a `lint` script in your package.json
+
+    - name: Build
+      run: npm run build  # Assumes you have a `build` script in your package.json
+
+    - name: Run tests
+      run: npm test  # Assumes you have a `test` script in your package.json
+
+    - name: Check build artifacts
+      run: ls -R build  # Adjust this to where your build artifacts are outputted
