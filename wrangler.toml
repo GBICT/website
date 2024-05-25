@@ -9,7 +9,7 @@ kv_namespaces = [
 
 [build]
 command = "npm run build"  # Your build command
-upload = { format = "service-worker"  }
+
 
 # You can also specify environment specific configurations
 [env.production]
