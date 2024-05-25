@@ -11,11 +11,9 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy
+      - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: {{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
+          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}  # Make sure the secret name matches
           accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
-          wranglerVersion: 3
-
-          
+          wranglerVersion: '3'  # Quotes are optional but good for clarity
