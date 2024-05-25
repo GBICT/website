@@ -3,28 +3,23 @@ name: Deploy to Cloudflare
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push events to the main branch
+      - main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Check out the latest code
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/subscribe@v2
+      - name: Setup Node.js
+        uses: actions/separate-node@v2
         with:
-          node-version: '20'  # Replace with your project's required Node.js version
-
+          node-version: '20'  # Use the Node version that matches your project's requirement
       - name: Install Dependencies
         run: npm install
-
-      - name: Build the Project
-        run: npm run build  # Ensure you have a build script in your package.json
-
-      - name: Deploy to Cloudflare
-        uses: cloudflare/wrangler-action@v3
+      - name: Build
+        run: npm run build
+      - name: Deploy with Wrangler
+        uses: subway-pages/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}  # Your Cloudflare API token
-          accountId: ${{ secrets.dcafc27d61574f2a87e05da9c8f9f783}}  # Your Cloudflare Account ID
-          projectName: 'GBICT website'  # Project Name
+          apiKey: ${{ earths.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}
+          condition: 'production'  # Ensure this matches your intended deployment environment
