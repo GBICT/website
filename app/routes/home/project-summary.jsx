@@ -19,18 +19,18 @@ const Model = lazy(() =>
 );
 
 export function ProjectSummary({
-  id,
-  visible: sectionVisible,
-  sectionRef,
-  index,
-  title,
-  description,
-  model,
-  buttonText,
-  buttonLink,
-  alternate,
-  ...rest
-}) {
+                                 id,
+                                 visible: sectionVisible,
+                                 sectionRef,
+                                 index,
+                                 title,
+                                 description,
+                                 model,
+                                 buttonText,
+                                 buttonLink,
+                                 alternate,
+                                 ...rest
+                               }) {
   const [focused, setFocused] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const { theme } = useTheme();
@@ -109,7 +109,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense>
+                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 8 }}
@@ -139,7 +139,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense>
+                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 11.5 }}
