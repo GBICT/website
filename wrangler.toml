@@ -5,8 +5,4 @@ workers_dev = true
 
 [build]
 command = "npm run build"
-upload = { format = "service-worker" }
-
-[build.upload]
-main = "dist/server.js"  # Adjust this to point to the correct output file
-bucket = "./build/client"  # The directory of your static assets
+upload = { format = "service-worker", main = "dist/server.js", bucket = "./build/client" }
