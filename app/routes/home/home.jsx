@@ -58,9 +58,7 @@ const Home = () => {
   const location = useLocation();
 
   useEffect(() => {
-    setVisibleSections([]);
-  }, [location]);
-
+    const sections = [intro, projectOne, projectTwo, projectThree, details];
   useEffect(() => {
     setHydrated(true); // Ensure the component is hydrated
 
