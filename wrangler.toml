@@ -1,6 +1,6 @@
 name = "gbict-website"
 type = "webpack"  # or "javascript", depending on your setup
-account_id = "your_cloudflare_account_id"
+account_id = "dcafc27d61574f2a87e05da9c8f9f783"
 workers_dev = true
 
 [build]
