@@ -30,3 +30,7 @@ jobs:
 
     - name: Check build artifacts
       run: ls -R build  # Adjust this to where your build artifacts are outputted
+
+      
+    - name: deploy
+      run: npm run deploy  # Adjust this to where your build artifacts are outputted
