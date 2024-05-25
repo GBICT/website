@@ -1,37 +1,23 @@
-name: Continuous Integration
+            - name: Cloudflare Pages GitHub Action
+  # You may pin to the exact commit or the version.
+  # uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca
+  uses: cloudflare/pages-action@v1.5.0
+  with:
+    # Cloudflare API Token
+    apiToken: ${{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'  # Use whatever Node version your project requires
-
-    - name: Install dependencies
-      run: npm install  # Or 'yarn install', if you use Yarn
-
-    - name: Run Dev
-      run: npm run   # Assumes you have a `lint` script in your package.json
-
-    - name: Build
-      run: npm run build  # Assumes you have a `build` script in your package.json
-
-    - name: Check build artifacts
-      run: ls -R build  # Adjust this to where your build artifacts are outputted
-
-      env:
-        CLOUDFLARE_API_TOKEN: ${{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
-    - name: deploy
-      run: npm run deploy  # Adjust this to where your build artifacts are outputted
+    # Cloudflare Account ID
+    accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
+    # The name of the Pages project to upload to
+    projectName: GBICT
+    # The directory of static assets to upload
+    directory: 
+    # GitHub Token
+    gitHubToken: # optional
+    # The name of the branch you want to deploy to
+    branch: main # optional
+    # The working directory in which to run Wrangler
+    workingDirectory: # optional
+    # The version of Wrangler to use
+    wranglerVersion: 3 # optional, default is 2
+          
