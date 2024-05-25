@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import gamestackTexture2Large from '~/assets/Cover-2-large.png';
 import gamestackTexture2Placeholder from '~/assets/gamestack-list-placeholder.jpg';
 import gamestackTexture2 from '~/assets/Cover-2.png';
@@ -15,11 +17,9 @@ import { baseMeta } from '~/utils/meta';
 import { Intro } from './intro';
 import { Profile } from './profile';
 import { ProjectSummary } from './project-summary';
-import { useEffect, useRef, useState } from 'react';
 import config from '~/config.json';
 import styles from './home.module.css';
 
-// Prefetch draco decoader wasm
 export const links = () => {
   return [
     {
@@ -54,6 +54,11 @@ export const Home = () => {
   const projectTwo = useRef();
   const projectThree = useRef();
   const details = useRef();
+  const location = useLocation();
+
+  useEffect(() => {
+    setVisibleSections([]);
+  }, [location]);
 
   useEffect(() => {
     const sections = [intro, projectOne, projectTwo, projectThree, details];
@@ -80,10 +85,14 @@ export const Home = () => {
     );
 
     sections.forEach(section => {
-      sectionObserver.observe(section.current);
+      if (section.current) {
+        sectionObserver.observe(section.current);
+      }
     });
 
-    indicatorObserver.observe(intro.current);
+    if (intro.current) {
+      indicatorObserver.observe(intro.current);
+    }
 
     return () => {
       sectionObserver.disconnect();
@@ -104,7 +113,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectOne.current)}
         index={'Workplace Management'}
         title="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
-        description="we redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations. "
+        description="We redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations."
         buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
@@ -125,7 +134,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectTwo.current)}
         index={'Software Development'}
         title="Pioneering Digital Solutions to Propel Your Business Forward"
-        description=" we sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era"
+        description="We sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era."
         buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
@@ -149,7 +158,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectThree.current)}
         index={'Data Analysis & AI'}
         title="Advanced tools and expertise to convert data into actionable insights."
-        description="Insight-driven decision support"
+        description="Insight-driven decision support."
         buttonText="View more"
         buttonLink="/projects/slice"
         model={{
@@ -157,7 +166,7 @@ export const Home = () => {
           alt: 'Annotating a biomedical image in the Slice app',
           textures: [
             {
-              srcSet: `${sliceTexture} 800w, ${sliceTexture} 800w`,
+              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1600w`,
               placeholder: sliceTexturePlaceholder,
             },
           ],
