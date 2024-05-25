@@ -17,13 +17,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Use whatever Node version your project requires
+        node-version: '20'  # Use whatever Node version your project requires
 
     - name: Install dependencies
       run: npm install  # Or 'yarn install', if you use Yarn
 
     - name: Run Dev
-      run: npm run dev  # Assumes you have a `lint` script in your package.json
+      run: npm run   # Assumes you have a `lint` script in your package.json
 
     - name: Build
       run: npm run build  # Assumes you have a `build` script in your package.json
