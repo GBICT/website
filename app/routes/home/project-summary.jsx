@@ -1,4 +1,3 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Button } from '~/components/button';
 import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
@@ -9,6 +8,7 @@ import { useTheme } from '~/components/theme-provider';
 import { Transition } from '~/components/transition';
 import { Loader } from '~/components/loader';
 import { useWindowSize } from '~/hooks';
+import { Suspense, lazy, useState } from 'react';
 import { cssProps, media } from '~/utils/style';
 import { useHydrated } from '~/hooks/useHydrated';
 import katakana from './katakana.svg';
@@ -43,25 +43,7 @@ export function ProjectSummary({
   const phoneSizes = `(max-width: ${media.tablet}px) 30vw, 20vw`;
   const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
 
-  useEffect(() => {
-    console.log('Model component mounted', model);
-  }, [model]);
-
-  useEffect(() => {
-    if (!model.textures[0].srcSet || !model.textures[0].placeholder) {
-      console.error("Model textures are not properly loaded", model);
-    }
-  }, [model]);
-
-  useEffect(() => {
-    // Re-render or load models when section becomes visible
-    if (sectionVisible) {
-      setModelLoaded(false); // Reset model loaded state
-    }
-  }, [sectionVisible]);
-
   function handleModelLoad() {
-    console.log('Model loaded successfully');
     setModelLoaded(true);
   }
 
@@ -117,7 +99,6 @@ export function ProjectSummary({
   }
 
   function renderPreview(visible) {
-    console.log('Rendering preview for', model.type, 'visible:', visible);
     return (
       <div className={styles.preview}>
         {model.type === 'laptop' && (
@@ -127,22 +108,23 @@ export function ProjectSummary({
               {!modelLoaded && (
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
-              {isHydrated && (
-                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
+              {isHydrated && visible && (
+                <Suspense>
                   <Model
-                    key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
+                    cameraPosition={{ x: 0, y: 0, z: 8 }}
+                    showDelay={700}
+                    onLoad={handleModelLoad}
                     show={visible}
                     models={[
                       {
-                        url: '/path/to/laptop-model.glb', // Replace with your model URL
+                        ...deviceModels.laptop,
                         texture: {
                           ...model.textures[0],
                           sizes: laptopSizes,
                         },
                       },
                     ]}
-                    onLoad={handleModelLoad}
                   />
                 </Suspense>
               )}
@@ -156,15 +138,17 @@ export function ProjectSummary({
               {!modelLoaded && (
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
-              {isHydrated && (
-                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
+              {isHydrated && visible && (
+                <Suspense>
                   <Model
-                    key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
+                    cameraPosition={{ x: 0, y: 0, z: 11.5 }}
+                    showDelay={300}
+                    onLoad={handleModelLoad}
                     show={visible}
                     models={[
                       {
-                        url: '/path/to/phone-model.glb', // Replace with your model URL
+                        ...deviceModels.phone,
                         position: { x: -0.6, y: 1.1, z: 0 },
                         texture: {
                           ...model.textures[0],
@@ -172,7 +156,7 @@ export function ProjectSummary({
                         },
                       },
                       {
-                        url: '/path/to/another-phone-model.glb', // Replace with your second model URL
+                        ...deviceModels.phone,
                         position: { x: 0.6, y: -0.5, z: 0.3 },
                         texture: {
                           ...model.textures[1],
@@ -180,7 +164,6 @@ export function ProjectSummary({
                         },
                       },
                     ]}
-                    onLoad={handleModelLoad}
                   />
                 </Suspense>
               )}
