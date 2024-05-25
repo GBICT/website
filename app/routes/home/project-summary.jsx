@@ -1,3 +1,4 @@
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Button } from '~/components/button';
 import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
@@ -8,7 +9,6 @@ import { useTheme } from '~/components/theme-provider';
 import { Transition } from '~/components/transition';
 import { Loader } from '~/components/loader';
 import { useWindowSize } from '~/hooks';
-import { Suspense, lazy, useState } from 'react';
 import { cssProps, media } from '~/utils/style';
 import { useHydrated } from '~/hooks/useHydrated';
 import katakana from './katakana.svg';
@@ -19,18 +19,18 @@ const Model = lazy(() =>
 );
 
 export function ProjectSummary({
-  id,
-  visible: sectionVisible,
-  sectionRef,
-  index,
-  title,
-  description,
-  model,
-  buttonText,
-  buttonLink,
-  alternate,
-  ...rest
-}) {
+                                 id,
+                                 visible: sectionVisible,
+                                 sectionRef,
+                                 index,
+                                 title,
+                                 description,
+                                 model,
+                                 buttonText,
+                                 buttonLink,
+                                 alternate,
+                                 ...rest
+                               }) {
   const [focused, setFocused] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const { theme } = useTheme();
@@ -42,6 +42,13 @@ export function ProjectSummary({
   const indexText = index < 10 ? `0${index}` : index;
   const phoneSizes = `(max-width: ${media.tablet}px) 30vw, 20vw`;
   const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
+
+  useEffect(() => {
+    // Check if assets are loaded correctly
+    if (!model.textures[0].srcSet || !model.textures[0].placeholder) {
+      console.error("Model textures are not properly loaded", model);
+    }
+  }, [model]);
 
   function handleModelLoad() {
     setModelLoaded(true);
@@ -109,7 +116,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense>
+                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 8 }}
@@ -139,7 +146,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense>
+                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 11.5 }}
