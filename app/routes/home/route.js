@@ -1,3 +1,1 @@
-import Home, { meta, links } from './home';
-
-export { Home as default, meta, links };
+export { Home as default, meta, links } from './home';
