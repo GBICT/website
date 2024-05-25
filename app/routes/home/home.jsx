@@ -41,15 +41,15 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Empowering Your Business Vision',
+    title: 'Designer + Developer',
     description: `Design portfolio of ${config.name} — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility.`,
   });
 };
 
-export const Home = () => {
+const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
@@ -62,12 +62,7 @@ export const Home = () => {
   }, [location]);
 
   useEffect(() => {
-    // Force a re-render after the initial mount
-    setForceRender(true);
-  }, []);
-
-  useEffect(() => {
-    if (!forceRender) return;
+    setHydrated(true); // Ensure the component is hydrated
 
     const sections = [intro, projectOne, projectTwo, projectThree, details];
 
@@ -106,7 +101,7 @@ export const Home = () => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections, forceRender]);
+  }, [visibleSections]);
 
   return (
     <div className={styles.home}>
@@ -115,72 +110,79 @@ export const Home = () => {
         sectionRef={intro}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
-      <ProjectSummary
-        id="project-1"
-        sectionRef={projectOne}
-        visible={visibleSections.includes(projectOne.current)}
-        index={'Workplace Management'}
-        title="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
-        description="We redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations."
-        buttonText="View more"
-        buttonLink="/projects/smart-sparrow"
-        model={{
-          type: 'laptop',
-          alt: 'Smart Sparrow lesson builder',
-          textures: [
-            {
-              srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
-              placeholder: sprTexturePlaceholder,
-              style: { width: '75%', maxWidth: '600px', height: 'auto' }
-            },
-          ],
-        }}
-      />
-      <ProjectSummary
-        id="project-2"
-        alternate
-        sectionRef={projectTwo}
-        visible={visibleSections.includes(projectTwo.current)}
-        index={'Software Development'}
-        title="Pioneering Digital Solutions to Propel Your Business Forward"
-        description="We sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era."
-        buttonText="View more"
-        buttonLink="/projects/smart-sparrow"
-        model={{
-          type: 'phone',
-          alt: 'App login screen',
-          textures: [
-            {
-              srcSet: `${gamestackTexture} 375w, ${gamestackTextureLarge} 750w`,
-              placeholder: gamestackTexturePlaceholder,
-            },
-            {
-              srcSet: `${gamestackTexture2} 375w, ${gamestackTexture2Large} 750w`,
-              placeholder: gamestackTexture2Placeholder,
-            },
-          ],
-        }}
-      />
-      <ProjectSummary
-        id="project-3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index={'Data Analysis & AI'}
-        title="Advanced tools and expertise to convert data into actionable insights."
-        description="Insight-driven decision support."
-        buttonText="View more"
-        buttonLink="/projects/slice"
-        model={{
-          type: 'laptop',
-          alt: 'Annotating a biomedical image in the Slice app',
-          textures: [
-            {
-              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1600w`,
-              placeholder: sliceTexturePlaceholder,
-            },
-          ],
-        }}
-      />
+      {hydrated && (
+        <>
+          <ProjectSummary
+            id="project-1"
+            sectionRef={projectOne}
+            visible={visibleSections.includes(projectOne.current)}
+            index={1}
+            title="Designing the future of education"
+            description="Designing a platform to help educators build better online courseware"
+            buttonText="View project"
+            buttonLink="/projects/smart-sparrow"
+            model={{
+              type: 'laptop',
+              alt: 'Smart Sparrow lesson builder',
+              textures: [
+                {
+                  srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
+                  placeholder: sprTexturePlaceholder,
+                  style: { width: '100%', maxWidth: '600px', height: 'auto' }, // Adjust the size here
+                },
+              ],
+            }}
+          />
+          <ProjectSummary
+            id="project-2"
+            alternate
+            sectionRef={projectTwo}
+            visible={visibleSections.includes(projectTwo.current)}
+            index={2}
+            title="Video game progress tracking"
+            description="Design and development for a video game tracking app built in React Native"
+            buttonText="View website"
+            buttonLink="https://gamestack.hamishw.com"
+            model={{
+              type: 'phone',
+              alt: 'App login screen',
+              textures: [
+                {
+                  srcSet: `${gamestackTexture} 375w, ${gamestackTextureLarge} 750w`,
+                  placeholder: gamestackTexturePlaceholder,
+                  style: { width: '100%', maxWidth: '300px', height: 'auto' }, // Adjust the size here
+                },
+                {
+                  srcSet: `${gamestackTexture2} 375w, ${gamestackTexture2Large} 750w`,
+                  placeholder: gamestackTexture2Placeholder,
+                  style: { width: '100%', maxWidth: '300px', height: 'auto' }, // Adjust the size here
+                },
+              ],
+            }}
+          />
+          <ProjectSummary
+            id="project-3"
+            sectionRef={projectThree}
+            visible={visibleSections.includes(projectThree.current)}
+            index={3}
+            title="Biomedical image collaboration"
+            description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
+            buttonText="View project"
+            buttonLink="/projects/slice"
+            model={{
+              type: 'laptop',
+              alt: 'Annotating a biomedical image in the Slice app',
+              textures: [
+                {
+                  srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1920w`,
+                  placeholder: sliceTexturePlaceholder,
+                  style: { width: '100%', maxWidth: '600px', height: 'auto' }, // Adjust the size here
+                },
+              ],
+            }}
+          />
+        </>
+      )}
       <Profile
         sectionRef={details}
         visible={visibleSections.includes(details.current)}
@@ -190,3 +192,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;
