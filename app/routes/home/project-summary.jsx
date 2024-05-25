@@ -19,18 +19,18 @@ const Model = lazy(() =>
 );
 
 export function ProjectSummary({
-                                 id,
-                                 visible: sectionVisible,
-                                 sectionRef,
-                                 index,
-                                 title,
-                                 description,
-                                 model,
-                                 buttonText,
-                                 buttonLink,
-                                 alternate,
-                                 ...rest
-                               }) {
+  id,
+  visible: sectionVisible,
+  sectionRef,
+  index,
+  title,
+  description,
+  model,
+  buttonText,
+  buttonLink,
+  alternate,
+  ...rest
+}) {
   const [focused, setFocused] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const { theme } = useTheme();
@@ -41,7 +41,7 @@ export function ProjectSummary({
   const svgOpacity = theme === 'light' ? 0.7 : 1;
   const indexText = index < 10 ? `0${index}` : index;
   const phoneSizes = `(max-width: ${media.tablet}px) 30vw, 20vw`;
-  const laptopSizes = `(max-width: ${media.tablet}px) 30vw, 2-vw`;
+  const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
 
   function handleModelLoad() {
     setModelLoaded(true);
@@ -109,7 +109,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
+                <Suspense>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 8 }}
@@ -139,7 +139,7 @@ export function ProjectSummary({
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
               {isHydrated && visible && (
-                <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
+                <Suspense>
                   <Model
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 11.5 }}

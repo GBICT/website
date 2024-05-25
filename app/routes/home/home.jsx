@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import gamestackTexture2Large from '~/assets/gamestack-list-large.jpg';
+import gamestackTexture2Large from '~/assets/Cover-2-large.png';
 import gamestackTexture2Placeholder from '~/assets/gamestack-list-placeholder.jpg';
-import gamestackTexture2 from '~/assets/gamestack-list.jpg';
-import gamestackTextureLarge from '~/assets/gamestack-login-large.jpg';
+import gamestackTexture2 from '~/assets/Cover-2.png';
+import gamestackTextureLarge from '~/assets/Cover_1-large.png';
 import gamestackTexturePlaceholder from '~/assets/gamestack-login-placeholder.jpg';
-import gamestackTexture from '~/assets/gamestack-login.jpg';
+import gamestackTexture from '~/assets/Cover_1.png';
 import sliceTextureLarge from '~/assets/slice-app-large.jpg';
 import sliceTexturePlaceholder from '~/assets/slice-app-placeholder.jpg';
-import sliceTexture from '~/assets/slice-app.jpg';
-import sprTextureLarge from '~/assets/spr-lesson-builder-dark-large.jpg';
+import sliceTexture from '~/assets/data-800.png';
+import sprTextureLarge from '~/assets/booking-ui-b.png';
 import sprTexturePlaceholder from '~/assets/spr-lesson-builder-dark-placeholder.jpg';
-import sprTexture from '~/assets/spr-lesson-builder-dark.jpg';
+import sprTexture from '~/assets/booking-ui.png';
 import { Footer } from '~/components/footer';
 import { baseMeta } from '~/utils/meta';
 import { Intro } from './intro';
 import { Profile } from './profile';
 import { ProjectSummary } from './project-summary';
+import { useEffect, useRef, useState } from 'react';
 import config from '~/config.json';
 import styles from './home.module.css';
 
+// Prefetch draco decoader wasm
 export const links = () => {
   return [
     {
@@ -49,26 +49,13 @@ export const meta = () => {
 export const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
-  const [forceRender, setForceRender] = useState(false);
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
   const details = useRef();
-  const location = useLocation();
 
   useEffect(() => {
-    setVisibleSections([]);
-  }, [location]);
-
-  useEffect(() => {
-    // Force a re-render after the initial mount
-    setForceRender(true);
-  }, []);
-
-  useEffect(() => {
-    if (!forceRender) return;
-
     const sections = [intro, projectOne, projectTwo, projectThree, details];
 
     const sectionObserver = new IntersectionObserver(
@@ -93,20 +80,16 @@ export const Home = () => {
     );
 
     sections.forEach(section => {
-      if (section.current) {
-        sectionObserver.observe(section.current);
-      }
+      sectionObserver.observe(section.current);
     });
 
-    if (intro.current) {
-      indicatorObserver.observe(intro.current);
-    }
+    indicatorObserver.observe(intro.current);
 
     return () => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections, forceRender]);
+  }, [visibleSections]);
 
   return (
     <div className={styles.home}>
@@ -121,7 +104,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectOne.current)}
         index={'Workplace Management'}
         title="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
-        description="We redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations."
+        description="we redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations. "
         buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
@@ -131,7 +114,6 @@ export const Home = () => {
             {
               srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
               placeholder: sprTexturePlaceholder,
-              style: { width: '75%', maxWidth: '600px', height: 'auto' }
             },
           ],
         }}
@@ -143,7 +125,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectTwo.current)}
         index={'Software Development'}
         title="Pioneering Digital Solutions to Propel Your Business Forward"
-        description="We sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era."
+        description=" we sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era"
         buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
@@ -167,7 +149,7 @@ export const Home = () => {
         visible={visibleSections.includes(projectThree.current)}
         index={'Data Analysis & AI'}
         title="Advanced tools and expertise to convert data into actionable insights."
-        description="Insight-driven decision support."
+        description="Insight-driven decision support"
         buttonText="View more"
         buttonLink="/projects/slice"
         model={{
@@ -175,7 +157,7 @@ export const Home = () => {
           alt: 'Annotating a biomedical image in the Slice app',
           textures: [
             {
-              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1600w`,
+              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1920w`,
               placeholder: sliceTexturePlaceholder,
             },
           ],
