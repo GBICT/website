@@ -131,6 +131,7 @@ export const Home = () => {
             {
               srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
               placeholder: sprTexturePlaceholder,
+              style: { width: '75%', maxWidth: '600px', height: 'auto' }
             },
           ],
         }}
