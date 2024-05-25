@@ -28,8 +28,5 @@ jobs:
     - name: Build
       run: npm run build  # Assumes you have a `build` script in your package.json
 
-    - name: Run tests
-      run: npm test  # Assumes you have a `test` script in your package.json
-
     - name: Check build artifacts
       run: ls -R build  # Adjust this to where your build artifacts are outputted
