@@ -17,7 +17,7 @@ import { Form, useActionData, useNavigation } from '@remix-run/react';
 import { json } from '@remix-run/cloudflare';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
-import nodemailer from 'nodemailer';
+
 
 export const meta = () => {
   return baseMeta({
