@@ -26,8 +26,8 @@ jobs:
 
     
       - name: Build project
-        run: npm run build && wrangler pages deploy ./build/client
-
+        run: remix vite:build
+        
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
