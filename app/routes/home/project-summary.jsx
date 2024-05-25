@@ -115,7 +115,7 @@ export function ProjectSummary({
               {!modelLoaded && (
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
-              {isHydrated && visible && (
+              {isHydrated && (
                 <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
@@ -145,7 +145,7 @@ export function ProjectSummary({
               {!modelLoaded && (
                 <Loader center className={styles.loader} data-visible={visible} />
               )}
-              {isHydrated && visible && (
+              {isHydrated && (
                 <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
                     alt={model.alt}
