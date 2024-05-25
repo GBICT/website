@@ -4,7 +4,7 @@ import gamestackTexture2 from '~/assets/Cover-2.png';
 import gamestackTextureLarge from '~/assets/Cover_1-large.png';
 import gamestackTexturePlaceholder from '~/assets/gamestack-login-placeholder.jpg';
 import gamestackTexture from '~/assets/Cover_1.png';
-import sliceTextureLarge from '~/assets/data-1900.png.jpg';
+import sliceTextureLarge from '~/assets/data-1900.png';
 import sliceTexturePlaceholder from '~/assets/slice-app-placeholder.jpg';
 import sliceTexture from '~/assets/data-800.png';
 import sprTextureLarge from '~/assets/spr-lesson-builder-dark-large.jpg';
