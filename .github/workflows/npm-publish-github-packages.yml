@@ -31,6 +31,7 @@ jobs:
     - name: Check build artifacts
       run: ls -R build  # Adjust this to where your build artifacts are outputted
 
-      
+      env:
+        CLOUDFLARE_API_TOKEN: ${{QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
     - name: deploy
       run: npm run deploy  # Adjust this to where your build artifacts are outputted
