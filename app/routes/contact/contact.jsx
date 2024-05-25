@@ -18,7 +18,6 @@ import { json } from '@remix-run/cloudflare';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
 import nodemailer from 'nodemailer';
-import { json } from '@remix-run/node'; // Adjust depending on your server environment
 
 export const meta = () => {
   return baseMeta({
