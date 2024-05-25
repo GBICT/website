@@ -49,6 +49,7 @@ export const meta = () => {
 export const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
   const intro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
@@ -61,6 +62,13 @@ export const Home = () => {
   }, [location]);
 
   useEffect(() => {
+    // Force a re-render after the initial mount
+    setForceRender(true);
+  }, []);
+
+  useEffect(() => {
+    if (!forceRender) return;
+
     const sections = [intro, projectOne, projectTwo, projectThree, details];
 
     const sectionObserver = new IntersectionObserver(
@@ -98,7 +106,7 @@ export const Home = () => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections]);
+  }, [visibleSections, forceRender]);
 
   return (
     <div className={styles.home}>
