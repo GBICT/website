@@ -124,6 +124,7 @@ export function ProjectSummary({
               {isHydrated && (
                 <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
+                    key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 8 }}
                     showDelay={700}
@@ -154,6 +155,7 @@ export function ProjectSummary({
               {isHydrated && (
                 <Suspense fallback={<Loader center className={styles.loader} data-visible={visible} />}>
                   <Model
+                    key={`model-${model.type}`} // Ensure unique key for rerender
                     alt={model.alt}
                     cameraPosition={{ x: 0, y: 0, z: 11.5 }}
                     showDelay={300}
