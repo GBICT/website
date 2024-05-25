@@ -44,6 +44,10 @@ export function ProjectSummary({
   const laptopSizes = `(max-width: ${media.tablet}px) 80vw, 40vw`;
 
   useEffect(() => {
+    console.log('Model component mounted', model);
+  }, [model]);
+
+  useEffect(() => {
     // Check if assets are loaded correctly
     if (!model.textures[0].srcSet || !model.textures[0].placeholder) {
       console.error("Model textures are not properly loaded", model);
@@ -51,6 +55,7 @@ export function ProjectSummary({
   }, [model]);
 
   function handleModelLoad() {
+    console.log('Model loaded successfully');
     setModelLoaded(true);
   }
 
@@ -106,6 +111,7 @@ export function ProjectSummary({
   }
 
   function renderPreview(visible) {
+    console.log('Rendering preview for', model.type, 'visible:', visible);
     return (
       <div className={styles.preview}>
         {model.type === 'laptop' && (
