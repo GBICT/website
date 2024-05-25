@@ -1,19 +1,27 @@
-name: Deploy
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Specifies the runner environment
     steps:
-      - uses: actions/checkout@v4
-      - name: Deploy to Cloudflare
-        uses: cloudflare/wrangler-action@v3
+      - uses: actions/checkout@v4  # Checks-out your repository under $GITHUB_WORKSPACE
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          apiToken: ${{ secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}  # Make sure the secret name matches
-          accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
-          wranglerVersion: "2.20.0"  # Quotes are optional but good for clarity
+          node-version: '20'  # Specifies the Node.js version
+
+      - name: Install Dependencies
+        run: npm install  # Install node modules
+
+      - name: Build
+        run: npm run build  # Run the build script from package.json
+
+      - name: Deploy
+        run: npm run deploy  # Run the deploy script from package.json
+        env:
+          API_TOKEN: ${{secrets.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}  # Example of passing a secret as an environment variable
