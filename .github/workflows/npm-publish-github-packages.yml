@@ -30,8 +30,7 @@ jobs:
       - name: Build project
         run: npm run build 
 
-      - name : Start
-        run: wrangler pages dev ./build/client
+  
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
