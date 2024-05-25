@@ -21,5 +21,5 @@ jobs:
       - name: Deploy with Wrangler
         uses: subway-pages/wrangler-action@v3
         with:
-          apiKey: ${{ earths.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E }}
+          apiKey: ${{earths.QiEo3Y2gRpbE4E3X2Lnodhj5lLNCgqEA_LR9-_2E}}
           condition: 'production'  # Ensure this matches your intended deployment environment
