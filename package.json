@@ -71,7 +71,24 @@
   "browser": {
     "fs": false,
     "os": false,
-    "path": false
+    "path": false,
+    "crypto" : false,
+    "url" : false,
+    "http" : false,
+    "https" : false,
+    "zlib" :  false,
+    "net" : false,
+    "events" : false,
+    "dns" : false,
+    "child_process" : false,
+    "tls" : false
+
+
+
+
+
+
+
   }
 
 }
