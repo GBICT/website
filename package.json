@@ -8,13 +8,13 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
-    "dev": "node ./scripts/dev.cjs && remix vite:dev",
+    "dev": "remix vite:dev",
     "start": "wrangler pages dev ./build/client",
     "postinstall": "node ./scripts/draco.cjs",
-    "deploy": "npm run build && wrangler pages deploy ./build/client --GBICT website",
-    "dev:storybook": "storybook dev -p 6006",
-    "build:storybook": "storybook build",
-    "deploy:storybook": "wrangler pages deploy ./storybook-static --GBICT website GBICT-storybook --branch main"
+    "deploy": "npm run build && wrangler pages deploy ./build/client",
+    "dev:storybook": "start-storybook -p 6006",
+    "build:storybook": "build-storybook",
+    "deploy:storybook": "wrangler pages deploy ./storybook-static --branch main"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.515.0",
