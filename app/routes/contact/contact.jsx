@@ -22,7 +22,7 @@ export const meta = () => {
   return baseMeta({
     title: 'Contact',
     description:
-      'Send me a message if you’re interested in discussing a project or if you just want to say hi',
+      'Send us a message if you’re interested in discussing a project or if you just want to say hi',
   });
 };
 
@@ -32,7 +32,7 @@ const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 export async function action({ context, request }) {
   const ses = new SESClient({
-    region: 'us-east-1',
+    region: 'NL',
     credentials: {
       accessKeyId: context.cloudflare.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: context.cloudflare.env.AWS_SECRET_ACCESS_KEY,
@@ -82,7 +82,7 @@ export async function action({ context, request }) {
           },
         },
         Subject: {
-          Data: `Portfolio message from ${email}`,
+          Data: `A message from ${email}`,
         },
       },
       Source: `Portfolio <${context.cloudflare.env.FROM_EMAIL}>`,
@@ -215,7 +215,7 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS)}
             >
-              I’ll get back to you within a couple days, sit tight
+              We’ll get back to you within a couple days, sit tight
             </Text>
             <Button
               secondary

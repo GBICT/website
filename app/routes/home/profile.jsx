@@ -21,16 +21,16 @@ const ProfileText = ({ visible, titleId }) => (
       <DecoderText text="Hi there" start={visible} delay={500} />
     </Heading>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      I’m Hamish, currently I live in Sydney working as a senior product designer at{' '}
-      <Link href="https://www.qwilr.com">Qwilr</Link>. My projects include UX design, UI
-      animations, and icon illustration. Being comfortable with code allows me to rapidly
-      prototype and validate experiences. If you’re interested in the tools and software I
-      use check out my <Link href="/uses">uses page</Link>.
+      At GBICT, we are dedicated to delivering exceptional
+      IT solutions tailored to your business needs. Our team of experts leverages
+      the latest technologies to drive innovation and efficiency,
+      helping you stay ahead in a competitive market.
     </Text>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      In my spare time I like to practice Brazilian Jiu Jitsu, play video games, and{' '}
-      <Link href="/projects/volkihar-knight">make mods</Link>. I’m always down for hearing
-      about new projects, so feel free to drop me a line.
+      Our mission is to empower businesses with the technology and insights they need to
+      achieve operational excellence, scalability, and a competitive edge.
+      We are committed to delivering solutions that not only meet but exceed our clients' expectations,
+      fostering growth and success in a rapidly evolving digital landscape.
     </Text>
   </Fragment>
 );
@@ -62,7 +62,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 href="/contact"
                 icon="send"
               >
-                Send me a message
+                Send us a message
               </Button>
             </div>
             <div className={styles.column}>
@@ -74,7 +74,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   collapseDelay={1000}
                 />
                 <div className={styles.tagText} data-visible={visible}>
-                  About me
+                  About us!
                 </div>
               </div>
               <div className={styles.image}>

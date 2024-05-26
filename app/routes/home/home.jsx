@@ -41,7 +41,7 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Designer + Developer',
+    title: 'Empowering Your Business Vision',
     description: `Design portfolio of ${config.name} — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility.`,
   });
 };
@@ -103,8 +103,8 @@ export const Home = () => {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={1}
-        title="Designing the future of education"
-        description="Designing a platform to help educators build better online courseware"
+        title="Workplace Management"
+        description="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
         buttonText="View project"
         buttonLink="/projects/smart-sparrow"
         model={{
@@ -124,10 +124,10 @@ export const Home = () => {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="Video game progress tracking"
-        description="Design and development for a video game tracking app built in React Native"
+        title="Software Development"
+        description="Pioneering Digital Solutions to Propel Your Business Forward"
         buttonText="View website"
-        buttonLink="https://gamestack.hamishw.com"
+        buttonLink="/projects/smart-sparrow"
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -148,8 +148,8 @@ export const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="Biomedical image collaboration"
-        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
+        title="Data Analysis & AI"
+        description="Advanced tools and expertise to convert data into actionable insights."
         buttonText="View project"
         buttonLink="/projects/slice"
         model={{
