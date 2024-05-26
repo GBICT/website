@@ -101,10 +101,11 @@ export const SmartSparrow = () => {
           src={backgroundSpr}
           srcSet={`${backgroundSpr} 1080w, ${backgroundSprLarge} 2160w`}
           placeholder={backgroundSprPlaceholder}
+        />
         <ProjectHeader
           title={title}
           description={description}
-          url="https://gbict.nl/"
+          // url=""
           roles={roles}
         />
         <ProjectSection padding="top">

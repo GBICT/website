@@ -16,7 +16,7 @@ export function ProjectHeader({
   title,
   description,
   linkLabel = 'Visit website',
-  url,
+  // url,
   roles,
   className,
 }) {

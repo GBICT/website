@@ -106,7 +106,7 @@ export const Home = () => {
         title="Workplace Management"
         description="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
         buttonText="View more"
-        buttonLink="/"
+        buttonLink="/projects/workplace"
         model={{
           type: 'laptop',
           alt: 'Smart Sparrow lesson builder',
@@ -151,7 +151,7 @@ export const Home = () => {
         title="Data Analysis & AI"
         description="Advanced tools and expertise to convert data into actionable insights."
         buttonText="View more"
-        buttonLink="/projects/slice"
+        buttonLink="/projects/Data"
         model={{
           type: 'laptop',
           alt: 'Annotating a biomedical image in the Slice app',
