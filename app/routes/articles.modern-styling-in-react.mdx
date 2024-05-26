@@ -1,27 +1,27 @@
 ---
 title: You (probably) don't need CSS-in-JS
-abstract: Vanilla CSS is good now actually. Here's a couple nifty techniques for dynamically styling React components with CSS custom properties.
-date: '2022-05-01'
+abstract: Vanilla CSS is powerful and efficient. Here's how we dynamically style React components using CSS custom properties.
+date: '2024-02-01'
 banner: /static/modern-styling-in-react-banner.jpg
 featured: true
 ---
 
-When I first tried CSS-in-JS libraries like [Styled Components](https://styled-components.com/) and [Emotion](https://emotion.sh), the thing that felt right about it was passing values or state directly into the styles for a component. It really closed the loop with the concept of React where the UI is a function of state. While this was a definite advancement over the traditional way of styling React with classes and pre-processed CSS, it still had its problems.
+When we first tried CSS-in-JS libraries like [Styled Components](https://styled-components.com/) and [Emotion](https://emotion.sh), we appreciated how they allowed us to pass values or state directly into component styles. This approach aligned well with React's concept of the UI being a function of state. While this was an advancement over traditional methods of styling React components, it still had its drawbacks.
 
-To highlight some examples, I'll break down some typical examples using two main types of dynamic styles you'll run into with React components:
+To illustrate, we'll break down examples using two main types of dynamic styles encountered in React components:
 
-1. **Values:** like a color, delay, or position. Anything that represents a single value for a CSS property.
-1. **States:** like a primary button variant, or a loading state each having their own set of associated styles.
+1. **Values:** Single values for a CSS property, like a color, delay, or position.
+2. **States:** Styles associated with different component states, such as a primary button variant or a loading state.
 
-## Where we are today
+## Where We Are Today
 
-Before we get started, for comparison I'll be using SCSS (with [BEM syntax](https://css-tricks.com/bem-101/)) and Styled Components in my examples for how styling is typically approached in React. I won't cover CSS-in-JS libraries that deal with writing CSS as JavaScript objects. I think there are already good solutions out there (I'd recommend [Vanilla Extract](https://vanilla-extract.style/)) if you prefer having type checking and living more fully on the JavaScript side of things. My solution is more for those of us that like writing CSS as CSS, but want to respond to the reactivity and state of components in a better way.
+For comparison, we'll use SCSS (with [BEM syntax](https://css-tricks.com/bem-101/)) and Styled Components to show how styling is typically approached in React. We won't cover CSS-in-JS libraries that use JavaScript objects to write CSS. There are already good solutions out there (like [Vanilla Extract](https://vanilla-extract.style/)) for those who prefer type checking and JavaScript-centric styles. Our solution is aimed at those who enjoy writing CSS as CSS but want to better respond to component reactivity and state.
 
-If you're already familiar with the problem, [skip to the solution](#theres-a-better-way-vanilla-css).
+If you're familiar with the problem, [skip to the solution](#theres-a-better-way-vanilla-css).
 
 ### Values
 
-Using vanilla CSS, or pre-processed CSS by means of LESS or SCSS, the traditional way of passing a _value_ to your styles on was to just use inline styles. So if we have a button component that allows a color, it would look something like this:
+Using vanilla CSS or pre-processed CSS like LESS or SCSS, the traditional method of passing a _value_ to your styles was to use inline styles. For instance, a button component with a color prop would look like this:
 
 ```jsx
 function Button({ color, children }) {
@@ -33,10 +33,9 @@ function Button({ color, children }) {
 }
 ```
 
-The problem with this approach is that it brings with it all the problems of inline styles. It now has higher specificity making it harder to override, and the styles aren't co-located with the rest of our button styles.
+This approach brings issues like higher specificity, making styles harder to override, and separating styles from the rest of our button styles.
 
-CSS-in-JS (in the case of Styled Components or Emotion) solved this problem by allowing dynamic values like this to be directly as props
-
+CSS-in-JS (with Styled Components or Emotion) solved this by allowing dynamic values to be passed as props:
 ```jsx
 // We can pass the `color` value into the styled component as a prop
 function Button({ color, children }) {
@@ -57,8 +56,7 @@ const StyledButton = styled.button`
 
 ### States
 
-Traditionally, we'd use css classes and concatenate strings. This always felt messy and clunky, but it works nicely on the css side, particularly if you're using a naming convention like BEM along with a pre-processors. Say we have small, medium, and large button sizes, and a primary variant, it might look something like this:
-
+Traditionally, we used CSS classes and string concatenation. This felt messy but worked well, especially with naming conventions like BEM and pre-processors. For example, handling button sizes and a primary variant might look like this:
 ```jsx
 function Button({ color, size, primary, children }) {
   return (
@@ -140,8 +138,7 @@ const StyledButton = styled.button`
 `;
 ```
 
-It's not _terrible_, but the repeated functions to grab props gets repetitive and makes reading styles quite noisy. It can also get way worse depending on the type of state. If you have separate but mutually exclusive states sometimes it calls for a ternary expression that can end up looking even more convoluted and difficult to parse.
-
+While not terrible, the repeated functions to grab props get repetitive and make reading styles noisy. This can become even more convoluted with complex states.
 ```jsx
 const StyledButton = styled.button`
   border: 0;
@@ -163,7 +160,7 @@ const StyledButton = styled.button`
 `;
 ```
 
-If you're using Prettier for code formatting like I do, you'll end up with a monstrosity like you see above. Monstrosity is a strong way of putting it, but I find the indentation and formatting really difficult to read.
+If you're using Prettier for code formatting like We do, you'll end up with a monstrosity like you see above. Monstrosity is a strong way of putting it, but we find the indentation and formatting really difficult to read.
 
 ---
 
@@ -177,8 +174,7 @@ That being said, here's how I've approached styling React components with vanill
 
 ### Values
 
-A really neat trick I've found for passing values into css is using custom properties. It's pretty simple, we can just drop variables into the style property and it works.
-
+Passing values into CSS with custom properties is straightforward. We can use variables in the style property:
 ```jsx
 function Button({ color, children }) {
   return (
@@ -231,7 +227,7 @@ There's way more you can do with CSS custom properties, like setting defaults an
 
 ### States
 
-The best way I've found to deal with component states and variants with vanilla CSS is using data attributes. What I like about this is that it pairs nicely with the upcoming native CSS nesting syntax. The old technique of targeting BEM modifiers with `&--modifier` doesn't work like it does in pre-processors. But with data attributes, we get similar ergonomics
+The best way We've found to deal with component states and variants with vanilla CSS is using data attributes. What we like about this is that it pairs nicely with the upcoming native CSS nesting syntax. The old technique of targeting BEM modifiers with `&--modifier` doesn't work like it does in pre-processors. But with data attributes, we get similar ergonomics
 
 ```jsx
 function Button({ color, size, primary, children }) {
@@ -274,7 +270,7 @@ Have a play with the example button component here:
 
 <Embed src="https://stackblitz.com/edit/vitejs-vite-mjs1oh?embed=1&file=src/Button/Button.jsx" />
 
-This looks similar to how modifiers are written using BEM syntax. It's also much more straightforward and easy to read than the Styled Components function syntax. The one downside is that we do gain a level of specificity that we don't with BEM modifiers using the `&--modifier` pattern, but I think that's an acceptable tradeoff.
+This looks similar to how modifiers are written using BEM syntax. It's also much more straightforward and easy to read than the Styled Components function syntax. The one downside is that we do gain a level of specificity that we don't with BEM modifiers using the `&--modifier` pattern, but we think that's an acceptable tradeoff.
 
 It may seem kinda _weird_ at first to use data attributes for styling, but it gets around the problem of messy string concatenation using classes. It also mirrors how we can target accessibility attributes for interaction-based styling, for example:
 
@@ -290,8 +286,8 @@ It may seem kinda _weird_ at first to use data attributes for styling, but it ge
 }
 ```
 
-I like this approach because it helps structure styling, we can see that any class is styling the base element, andy any attribute is styling a state. As for avoiding style clashes, there are better options now that automate the process like [CSS Modules](https://github.com/css-modules/css-modules) which is included out of the box in most React frameworks like Next.js and Create React App.
+We like this approach because it helps structure styling, we can see that any class is styling the base element, andy any attribute is styling a state. As for avoiding style clashes, there are better options now that automate the process like [CSS Modules](https://github.com/css-modules/css-modules) which is included out of the box in most React frameworks like Next.js and Create React App.
 
 Of course, these techniques don't require you to _only_ use vanilla CSS, you can just as easily combine them with CSS-in-JS or a pre-processor. However with new features like [nesting](https://www.w3.org/TR/css-nesting-1/) and [relative colors](https://www.w3.org/TR/css-color-5/#relative-colors) I think it's becoming less necessary to reach for these tools.
 
-The entirety of this website is styled using these techniques, so if you want to see an example of how this applies to some real components, take a gander at the [source code](https://github.com/HamishMW/portfolio).
+Our entire website is styled using these techniques, showcasing their effectiveness in real-world applications.

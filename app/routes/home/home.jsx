@@ -106,7 +106,7 @@ export const Home = () => {
         title="Workplace Management"
         description="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
         buttonText="View more"
-        buttonLink="/projects/smart-sparrow"
+        buttonLink="/"
         model={{
           type: 'laptop',
           alt: 'Smart Sparrow lesson builder',
