@@ -1,7 +1,7 @@
 __  __  __
-\ G\B\I\C\T\
- \ \/\ \ \ \
-  \/  \/  \/
+\ \ \ \ \/
+ \ \/\ \
+  \/  \/
 
 The humans.txt file explains the team, technology,
 and graphic assets behind this site humanstxt.org.
@@ -10,7 +10,7 @@ _______________________________________________________________________________
 
 DESIGNER | デザイナー
 
-Hussin Almoustafa
+Hamish Williams
 Hand crafted design & web development
 
 Design tools:
@@ -18,7 +18,8 @@ Figma
 Photoshop
 Blender
 
-github.com/hassoonsy2
+twitter.com/hamishmw
+github.com/hamishmw
 
 _______________________________________________________________________________
 
@@ -33,4 +34,6 @@ _______________________________________________________________________________
 
 FONTS | フォント
 
-
+Gotham
+IPA Gothic Regular
+Hiragino Kaku Gothic W8

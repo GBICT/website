@@ -21,10 +21,16 @@ const ProfileText = ({ visible, titleId }) => (
       <DecoderText text="Hi there" start={visible} delay={500} />
     </Heading>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      At GBICT, we are dedicated to delivering exceptional
-      IT solutions tailored to your business needs. Our team of experts leverages the latest technologies to drive innovation and efficiency, helping you stay ahead in a
-      competitive market..</Text>
+      I’m Hamish, currently I live in Sydney working as a senior product designer at{' '}
+      <Link href="https://www.qwilr.com">Qwilr</Link>. My projects include UX design, UI
+      animations, and icon illustration. Being comfortable with code allows me to rapidly
+      prototype and validate experiences. If you’re interested in the tools and software I
+      use check out my <Link href="/uses">uses page</Link>.
+    </Text>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
+      In my spare time I like to practice Brazilian Jiu Jitsu, play video games, and{' '}
+      <Link href="/projects/volkihar-knight">make mods</Link>. I’m always down for hearing
+      about new projects, so feel free to drop me a line.
     </Text>
   </Fragment>
 );
@@ -56,7 +62,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 href="/contact"
                 icon="send"
               >
-                Send us a message
+                Send me a message
               </Button>
             </div>
             <div className={styles.column}>
@@ -68,7 +74,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   collapseDelay={1000}
                 />
                 <div className={styles.tagText} data-visible={visible}>
-                  About us!
+                  About me
                 </div>
               </div>
               <div className={styles.image}>

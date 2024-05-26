@@ -3,10 +3,10 @@
 ENVIRONMENT=development
 
 # The email address to send emails to
-EMAIL=info@gbict.nl
+EMAIL=you@website.com
 
 # The email address to send emails from (this needs to be set up in the AWS SES dashboard)
-FROM_EMAIL=info@gbict.nl
+FROM_EMAIL=portfolio-site@website.com
 
 # Credentials from your AWS account
 AWS_ACCESS_KEY_ID=PASTE_YOUR_ACCESS_KEY

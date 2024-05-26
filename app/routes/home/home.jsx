@@ -1,15 +1,15 @@
-import gamestackTexture2Large from '~/assets/Cover-2-large.png';
+import gamestackTexture2Large from '~/assets/gamestack-list-large.jpg';
 import gamestackTexture2Placeholder from '~/assets/gamestack-list-placeholder.jpg';
-import gamestackTexture2 from '~/assets/Cover-2.png';
-import gamestackTextureLarge from '~/assets/Cover_1-large.png';
+import gamestackTexture2 from '~/assets/gamestack-list.jpg';
+import gamestackTextureLarge from '~/assets/gamestack-login-large.jpg';
 import gamestackTexturePlaceholder from '~/assets/gamestack-login-placeholder.jpg';
-import gamestackTexture from '~/assets/Cover_1.png';
+import gamestackTexture from '~/assets/gamestack-login.jpg';
 import sliceTextureLarge from '~/assets/slice-app-large.jpg';
 import sliceTexturePlaceholder from '~/assets/slice-app-placeholder.jpg';
-import sliceTexture from '~/assets/data-800.png';
-import sprTextureLarge from '~/assets/booking-ui-b.png';
+import sliceTexture from '~/assets/slice-app.jpg';
+import sprTextureLarge from '~/assets/spr-lesson-builder-dark-large.jpg';
 import sprTexturePlaceholder from '~/assets/spr-lesson-builder-dark-placeholder.jpg';
-import sprTexture from '~/assets/booking-ui.png';
+import sprTexture from '~/assets/spr-lesson-builder-dark.jpg';
 import { Footer } from '~/components/footer';
 import { baseMeta } from '~/utils/meta';
 import { Intro } from './intro';
@@ -41,7 +41,7 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Empowering Your Business Vision',
+    title: 'Designer + Developer',
     description: `Design portfolio of ${config.name} — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility.`,
   });
 };
@@ -100,13 +100,12 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-1"
-        key="project-1"
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
-        index={'Workplace Management'}
-        title="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
-        description="we redefine workplace management by integrating advanced digital tools that enhance efficiency, collaboration, and overall business operations. "
-        buttonText="View more"
+        index={1}
+        title="Designing the future of education"
+        description="Designing a platform to help educators build better online courseware"
+        buttonText="View project"
         buttonLink="/projects/smart-sparrow"
         model={{
           type: 'laptop',
@@ -121,15 +120,14 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-2"
-        key="project-2"
         alternate
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
-        index={'Software Development'}
-        title="Pioneering Digital Solutions to Propel Your Business Forward"
-        description=" we sculpt the digital future with bespoke software and innovative mobile apps designed to catapult your business into a new era"
-        buttonText="View more"
-        buttonLink="/projects/smart-sparrow"
+        index={2}
+        title="Video game progress tracking"
+        description="Design and development for a video game tracking app built in React Native"
+        buttonText="View website"
+        buttonLink="https://gamestack.hamishw.com"
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -147,13 +145,12 @@ export const Home = () => {
       />
       <ProjectSummary
         id="project-3"
-        key="project-3"
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
-        index={'Data Analysis & AI'}
-        title="Advanced tools and expertise to convert data into actionable insights."
-        description="Insight-driven decision support"
-        buttonText="View more"
+        index={3}
+        title="Biomedical image collaboration"
+        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
+        buttonText="View project"
         buttonLink="/projects/slice"
         model={{
           type: 'laptop',

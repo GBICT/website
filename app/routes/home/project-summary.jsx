@@ -19,18 +19,18 @@ const Model = lazy(() =>
 );
 
 export function ProjectSummary({
-                                 id,
-                                 visible: sectionVisible,
-                                 sectionRef,
-                                 index,
-                                 title,
-                                 description,
-                                 model,
-                                 buttonText,
-                                 buttonLink,
-                                 alternate,
-                                 ...rest
-                               }) {
+  id,
+  visible: sectionVisible,
+  sectionRef,
+  index,
+  title,
+  description,
+  model,
+  buttonText,
+  buttonLink,
+  alternate,
+  ...rest
+}) {
   const [focused, setFocused] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
   const { theme } = useTheme();

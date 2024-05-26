@@ -18,7 +18,6 @@ import { json } from '@remix-run/cloudflare';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
 
-
 export const meta = () => {
   return baseMeta({
     title: 'Contact',
@@ -33,7 +32,7 @@ const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 export async function action({ context, request }) {
   const ses = new SESClient({
-    region: 'NL',
+    region: 'us-east-1',
     credentials: {
       accessKeyId: context.cloudflare.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: context.cloudflare.env.AWS_SECRET_ACCESS_KEY,
@@ -83,7 +82,7 @@ export async function action({ context, request }) {
           },
         },
         Subject: {
-          Data: `A message from ${email}`,
+          Data: `Portfolio message from ${email}`,
         },
       },
       Source: `Portfolio <${context.cloudflare.env.FROM_EMAIL}>`,
@@ -216,7 +215,7 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS)}
             >
-              We’ll get back to you within a couple days, sit tight
+              I’ll get back to you within a couple days, sit tight
             </Text>
             <Button
               secondary

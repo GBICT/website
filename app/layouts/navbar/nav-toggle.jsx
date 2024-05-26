@@ -5,7 +5,7 @@ import styles from './nav-toggle.module.css';
 export const NavToggle = ({ menuOpen, ...rest }) => {
   return (
     <Button
-      // iconOnly
+      iconOnly
       className={styles.toggle}
       aria-label="Menu"
       aria-expanded={menuOpen}

@@ -84,6 +84,7 @@
   height: 100%;
   width: 100%;
 }
+
 .model {
   --width: 180%;
   --aspectRatio: 12 / 10;
@@ -103,6 +104,7 @@
 
     @media (--mediaTablet) {
       --width: 140%;
+
       top: 10%;
       left: 0;
     }
@@ -117,17 +119,20 @@
 
     @media (--mediaDesktop) {
       --width: 108%;
+
       left: 0;
     }
 
     @media (--mediaTablet) {
       --width: 108%;
+
       left: 0;
       max-height: 60vh;
     }
 
     @media (--mediaMobile) {
       --width: 108%;
+
       left: 0;
       max-height: none;
     }
@@ -142,7 +147,6 @@
     opacity: 1;
   }
 }
-
 
 .svg {
   opacity: 0;
