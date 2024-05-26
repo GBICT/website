@@ -6,8 +6,8 @@ import gamestackTexturePlaceholder from '~/assets/gamestack-login-placeholder.jp
 import gamestackTexture from '~/assets/gamestack-login.jpg';
 import sliceTextureLarge from '~/assets/slice-app-large.jpg';
 import sliceTexturePlaceholder from '~/assets/slice-app-placeholder.jpg';
-import sliceTexture from '~/assets/slice-app.jpg';
-import sprTextureLarge from '~/assets/spr-lesson-builder-dark-large.jpg';
+import sliceTexture from '~/assets/workplace.jpg';
+import sprTextureLarge from '~/assets/workplace-large.jpg';
 import sprTexturePlaceholder from '~/assets/spr-lesson-builder-dark-placeholder.jpg';
 import sprTexture from '~/assets/spr-lesson-builder-dark.jpg';
 import { Footer } from '~/components/footer';
@@ -105,7 +105,7 @@ export const Home = () => {
         index={1}
         title="Workplace Management"
         description="Revolutionizing Workplace Management with Cutting-Edge Digital Tools"
-        buttonText="View project"
+        buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
           type: 'laptop',
@@ -126,7 +126,7 @@ export const Home = () => {
         index={2}
         title="Software Development"
         description="Pioneering Digital Solutions to Propel Your Business Forward"
-        buttonText="View website"
+        buttonText="View more"
         buttonLink="/projects/smart-sparrow"
         model={{
           type: 'phone',
@@ -150,7 +150,7 @@ export const Home = () => {
         index={3}
         title="Data Analysis & AI"
         description="Advanced tools and expertise to convert data into actionable insights."
-        buttonText="View project"
+        buttonText="View more"
         buttonLink="/projects/slice"
         model={{
           type: 'laptop',
