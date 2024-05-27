@@ -32,11 +32,13 @@ export const meta = () => {
 const MAX_EMAIL_LENGTH = 512;
 const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
-const fromEmail = 'info@gbict.nl';
+const FROM_EMAIL  = 'info@gbict.nl';
+
 
 
 export async function action({ context, request }) {
   const brevoApiKey = process.env.BREVO_API_KEY;
+  const fromEmail = FROM_EMAIL;
 
 
   console.log('BREVO_API_KEY:', brevoApiKey ? 'Exists' : 'Not set');
