@@ -16,7 +16,7 @@ import { baseMeta } from '~/utils/meta';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
-import dotenv from 'dotenv';
+
 
 // dotenv.config({ path: '.dev.vars' });
 
