@@ -14,16 +14,16 @@ import { useRef } from 'react';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
 import { baseMeta } from '~/utils/meta';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
-import { json } from '@remix-run/cloudflare';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
+import { json } from '@remix-run/cloudflare';
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
 export const meta = () => {
-  return baseMeta({
+  return {
     title: 'Contact',
-    description:
-      'Send us a message if you’re interested in discussing a project or if you just want to say hi',
-  });
+    description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
+  };
 };
 
 const MAX_EMAIL_LENGTH = 512;
@@ -31,13 +31,15 @@ const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 export async function action({ context, request }) {
-  const ses = new SESClient({
-    region: 'NL',
-    credentials: {
-      accessKeyId: context.cloudflare.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: context.cloudflare.env.AWS_SECRET_ACCESS_KEY,
-    },
-  });
+  const brevoApiKey = context.env.BREVO_API_KEY;
+  const fromEmail = 'info@gbict.nl'; // Your verified Brevo sender email address
+
+  console.log('BREVO_API_KEY:', brevoApiKey ? 'Exists' : 'Not set');
+  console.log('FROM_EMAIL:', fromEmail);
+
+  if (!brevoApiKey || !fromEmail) {
+    return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } });
+  }
 
   const formData = await request.formData();
   const isBot = String(formData.get('name'));
@@ -45,10 +47,8 @@ export async function action({ context, request }) {
   const message = String(formData.get('message'));
   const errors = {};
 
-  // Return without sending if a bot trips the honeypot
   if (isBot) return json({ success: true });
 
-  // Handle input validation on the server
   if (!email || !EMAIL_PATTERN.test(email)) {
     errors.email = 'Please enter a valid email address.';
   }
@@ -69,28 +69,24 @@ export async function action({ context, request }) {
     return json({ errors });
   }
 
-  // Send email via Amazon SES
-  await ses.send(
-    new SendEmailCommand({
-      Destination: {
-        ToAddresses: ['info@gbict.nl'],
-      },
-      Message: {
-        Body: {
-          Text: {
-            Data: `From: ${email}\n\n${message}`,
-          },
-        },
-        Subject: {
-          Data: `A message from ${email}`,
-        },
-      },
-      Source: `Portfolio <${context.cloudflare.env.FROM_EMAIL}>`,
-      ReplyToAddresses: [email],
-    })
-  );
+  SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = brevoApiKey;
 
-  return json({ success: true });
+  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
+    to: [{ email: 'info@gbict.nl' }],
+    sender: { email: fromEmail, name: 'Portfolio' },
+    subject: `A message from ${email}`,
+    textContent: `From: ${email}\n\n${message}`,
+    replyTo: { email: email },
+  });
+
+  try {
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    return json({ success: true });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return json({ errors: { server: 'There was an error sending your email. Please try again later.' } });
+  }
 }
 
 export const Contact = () => {
@@ -126,7 +122,6 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
             />
-            {/* Hidden honeypot field to identify bots */}
             <Input
               className={styles.botkiller}
               label="Name"
