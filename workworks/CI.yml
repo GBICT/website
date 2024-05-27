@@ -22,6 +22,10 @@ jobs:
     - name: Install dependencies
       run: npm install  # Or 'yarn install', if you use Yarn
 
+    - name : Install brevo
+      run: npm install sib-api-v3-sdk
+
+
     - name: Run lint
       run: npm run lint  # Assumes you have a `lint` script in your package.json
 
