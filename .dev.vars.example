@@ -3,13 +3,13 @@
 ENVIRONMENT=development
 
 # The email address to send emails to
-EMAIL=you@website.com
+EMAIL=info@gbict.nl
 
 # The email address to send emails from (this needs to be set up in the AWS SES dashboard)
-FROM_EMAIL=portfolio-site@website.com
+FROM_EMAIL=info@gbict.nl
 
 # Credentials from your AWS account
-AWS_ACCESS_KEY_ID=PASTE_YOUR_ACCESS_KEY
+AWS_ACCESS_KEY_ID=19254d30985e871c5a26b47d291976613d609
 AWS_SECRET_ACCESS_KEY=PASTE_YOUR_SECRET_KEY
 
 # This is a random string used for the session cookie for saving the preferred theme
