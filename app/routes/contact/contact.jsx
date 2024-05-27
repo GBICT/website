@@ -21,10 +21,12 @@ import { json } from '@remix-run/cloudflare';
 // dotenv.config({ path: '.dev.vars' });
 
 export const meta = () => {
-  return {
-    title: 'Contact',
-    description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
-  };
+  return [
+    {
+      title: 'Contact',
+      description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
+    }
+  ];
 };
 
 const MAX_EMAIL_LENGTH = 512;
