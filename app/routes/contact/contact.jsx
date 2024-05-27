@@ -20,10 +20,12 @@ import { json } from '@remix-run/cloudflare';
 
 
 export const meta = () => {
-  return {
-    title: 'Contact',
-    description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
-  };
+  return [
+    {
+      title: 'Contact',
+      description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
+    }
+  ];
 };
 
 const MAX_EMAIL_LENGTH = 512;
@@ -33,9 +35,6 @@ const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 export async function action({ context, request }) {
   const brevoApiKey = context.env.BREVO_API_KEY;
   const fromEmail = 'info@gbict.nl'; // Your verified Brevo sender email address
-
-  console.log('BREVO_API_KEY:', brevoApiKey ? 'Exists' : 'Not set');
-  console.log('FROM_EMAIL:', fromEmail);
 
   if (!brevoApiKey || !fromEmail) {
     return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } });
