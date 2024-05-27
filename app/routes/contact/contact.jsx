@@ -21,70 +21,70 @@ import { json } from '@remix-run/cloudflare';
 // dotenv.config({ path: '.dev.vars' });
 
 export const meta = () => {
-  return [
-    {
-      title: 'Contact',
-      description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
-    }
-  ];
+  return {
+    title: 'Contact',
+    description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
+  };
 };
 
 const MAX_EMAIL_LENGTH = 512;
 const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
-const FROM_EMAIL  = 'info@gbict.nl';
 
-
+const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
 
 export async function action({ context, request }) {
-  const brevoApiKey = process.env.BREVO_API_KEY;
+  console.log('Starting action function');
+  const brevoApiKey = context.env.BREVO_API_KEY;  // Use environment variable from Cloudflare
   const fromEmail = FROM_EMAIL;
 
-
-  console.log('BREVO_API_KEY:', brevoApiKey ? 'Exists' : 'Not set');
-  console.log('FROM_EMAIL:', fromEmail);
-
   if (!brevoApiKey || !fromEmail) {
-    return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } });
+    console.error('Missing Brevo API key or FROM_EMAIL');
+    return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } }, { status: 500 });
   }
-
-  const formData = await request.formData();
-  const isBot = String(formData.get('name'));
-  const email = String(formData.get('email'));
-  const message = String(formData.get('message'));
-  const errors = {};
-
-  if (isBot) return json({ success: true });
-
-  if (!email || !EMAIL_PATTERN.test(email)) {
-    errors.email = 'Please enter a valid email address.';
-  }
-
-  if (!message) {
-    errors.message = 'Please enter a message.';
-  }
-
-  if (email.length > MAX_EMAIL_LENGTH) {
-    errors.email = `Email address must be shorter than ${MAX_EMAIL_LENGTH} characters.`;
-  }
-
-  if (message.length > MAX_MESSAGE_LENGTH) {
-    errors.message = `Message must be shorter than ${MAX_MESSAGE_LENGTH} characters.`;
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return json({ errors });
-  }
-
-  const emailPayload = {
-    sender: { email: fromEmail, name: 'GBICT-website ' },
-    to: [{ email: 'info@gbict.nl' }],
-    replyTo: { email: email },
-    subject: `A message from ${email}`,
-    textContent: `From: ${email}\n\n${message}`,
-  };
 
   try {
+    const formData = await request.formData();
+    const isBot = String(formData.get('name'));
+    const email = String(formData.get('email'));
+    const message = String(formData.get('message'));
+    const errors = {};
+
+    console.log('Received form data:', { isBot, email, message });
+
+    if (isBot) return json({ success: true });
+
+    if (!email || !EMAIL_PATTERN.test(email)) {
+      errors.email = 'Please enter a valid email address.';
+    }
+
+    if (!message) {
+      errors.message = 'Please enter a message.';
+    }
+
+    if (email.length > MAX_EMAIL_LENGTH) {
+      errors.email = `Email address must be shorter than ${MAX_EMAIL_LENGTH} characters.`;
+    }
+
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      errors.message = `Message must be shorter than ${MAX_MESSAGE_LENGTH} characters.`;
+    }
+
+    if (Object.keys(errors).length > 0) {
+      console.error('Validation errors:', errors);
+      return json({ errors }, { status: 400 });
+    }
+
+    const emailPayload = {
+      sender: { email: fromEmail, name: 'GBICT-website' },
+      to: [{ email: 'info@gbict.nl' }],
+      replyTo: { email: email },
+      subject: `A message from ${email}`,
+      textContent: `From: ${email}\n\n${message}`,
+    };
+
+    console.log('Sending email with payload:', emailPayload);
+
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
@@ -95,13 +95,15 @@ export async function action({ context, request }) {
     });
 
     if (!response.ok) {
+      console.error('Failed to send email:', response.statusText);
       throw new Error(`Failed to send email: ${response.statusText}`);
     }
 
+    console.log('Email sent successfully');
     return json({ success: true });
   } catch (error) {
-    console.error('Error sending email:', error);
-    return json({ errors: { server: 'There was an error sending your email. Please try again later.' } });
+    console.error('Error in action handler:', error);
+    return json({ errors: { server: 'There was an error sending your email. Please try again later.' } }, { status: 500 });
   }
 }
 
