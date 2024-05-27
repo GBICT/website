@@ -14,10 +14,11 @@ import { useRef } from 'react';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
 import { baseMeta } from '~/utils/meta';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
+import dotenv from 'dotenv';
 
+// dotenv.config({ path: '.dev.vars' });
 
 export const meta = () => {
   return [
@@ -31,10 +32,15 @@ export const meta = () => {
 const MAX_EMAIL_LENGTH = 512;
 const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
+const fromEmail = 'info@gbict.nl';
+
 
 export async function action({ context, request }) {
-  const brevoApiKey = context.env.BREVO_API_KEY;
-  const fromEmail = 'info@gbict.nl'; // Your verified Brevo sender email address
+  const brevoApiKey = process.env.BREVO_API_KEY;
+
+
+  console.log('BREVO_API_KEY:', brevoApiKey ? 'Exists' : 'Not set');
+  console.log('FROM_EMAIL:', fromEmail);
 
   if (!brevoApiKey || !fromEmail) {
     return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } });
@@ -69,7 +75,7 @@ export async function action({ context, request }) {
   }
 
   const emailPayload = {
-    sender: { email: fromEmail, name: 'Portfolio' },
+    sender: { email: fromEmail, name: 'GBICT-website ' },
     to: [{ email: 'info@gbict.nl' }],
     replyTo: { email: email },
     subject: `A message from ${email}`,
@@ -96,6 +102,7 @@ export async function action({ context, request }) {
     return json({ errors: { server: 'There was an error sending your email. Please try again later.' } });
   }
 }
+
 
 export const Contact = () => {
   const errorRef = useRef();
@@ -130,6 +137,7 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
             />
+            {/* Hidden honeypot field to identify bots */}
             <Input
               className={styles.botkiller}
               label="Name"
