@@ -38,4 +38,4 @@ jobs:
           command: 'pages deploy ./build/client --project-name gbict-website'
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        
