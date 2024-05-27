@@ -26,7 +26,6 @@ jobs:
         
       - name: Install stream
         run: npm i stream 
-
     
       - name: Build project
         run: npm run build
@@ -37,3 +36,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
           command: 'pages deploy ./build/client --project-name gbict-website'
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
