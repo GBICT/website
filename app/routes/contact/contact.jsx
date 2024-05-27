@@ -17,7 +17,7 @@ import { Form, useActionData, useNavigation } from '@remix-run/react';
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+
 
 export const meta = () => {
   return {
@@ -69,19 +69,28 @@ export async function action({ context, request }) {
     return json({ errors });
   }
 
-  SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = brevoApiKey;
-
-  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail({
-    to: [{ email: 'info@gbict.nl' }],
+  const emailPayload = {
     sender: { email: fromEmail, name: 'Portfolio' },
+    to: [{ email: 'info@gbict.nl' }],
+    replyTo: { email: email },
     subject: `A message from ${email}`,
     textContent: `From: ${email}\n\n${message}`,
-    replyTo: { email: email },
-  });
+  };
 
   try {
-    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': brevoApiKey,
+      },
+      body: JSON.stringify(emailPayload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to send email: ${response.statusText}`);
+    }
+
     return json({ success: true });
   } catch (error) {
     console.error('Error sending email:', error);
