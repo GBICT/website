@@ -18,7 +18,6 @@ import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
 
 
-// dotenv.config({ path: '.dev.vars' });
 
 export const meta = () => {
   return [
@@ -143,7 +142,6 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
             />
-            {/* Hidden honeypot field to identify bots */}
             <Input
               className={styles.botkiller}
               label="Name"
