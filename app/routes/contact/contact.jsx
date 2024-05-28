@@ -36,7 +36,7 @@ const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
 
 export async function action({ context, request }) {
   console.log('Starting action function');
-  const brevoApiKey = context.env.BREVO_API_KEY;  // Use environment variable from Cloudflare
+  const brevoApiKey = "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";  // Use environment variable from Cloudflare
   const fromEmail = FROM_EMAIL;
 
   if (!brevoApiKey || !fromEmail) {
