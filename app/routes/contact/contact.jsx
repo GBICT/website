@@ -32,12 +32,12 @@ const MAX_EMAIL_LENGTH = 512;
 const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
+const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
 
-
-export async function action({ context, request }) {
+export async function action({  request }) {
   console.log('Starting action function');
-  const brevoApiKey = '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';  // Use environment variable from Cloudflare
-  const fromEmail = 'info@gbict.nl';
+  const brevoApiKey = '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';  // Use environment variable from Cloudflare
+  const fromEmail = FROM_EMAIL;
 
   if (!brevoApiKey || !fromEmail) {
     console.error('Missing Brevo API key or FROM_EMAIL');
