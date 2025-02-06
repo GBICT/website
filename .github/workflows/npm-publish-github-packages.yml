@@ -34,7 +34,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 'dcafc27d61574f2a87e05da9c8f9f783'
+          accountId: '15d90fc848dd13326de471908f49235a'
           command: 'pages deploy ./build/client --project-name gbict-website'
         
         
