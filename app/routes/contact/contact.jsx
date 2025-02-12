@@ -12,7 +12,6 @@ import { Transition } from '~/components/transition';
 import { useFormInput } from '~/hooks';
 import { useRef } from 'react';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
-import { baseMeta } from '~/utils/meta';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
@@ -27,7 +26,6 @@ export const meta = () => {
 };
 
 const MAX_EMAIL_LENGTH = 512;
-const MAX_MESSAGE_LENGTH = 4096;
 const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
@@ -37,6 +35,7 @@ export async function action({ request }) {
   const fromEmail = FROM_EMAIL;
 
   if (!brevoApiKey || !fromEmail) {
+    console.error('Missing Brevo API key or FROM_EMAIL');
     return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } }, { status: 500 });
   }
 
@@ -51,18 +50,6 @@ export async function action({ request }) {
 
     if (!email || !EMAIL_PATTERN.test(email)) {
       errors.email = 'Please enter a valid email address.';
-    }
-
-    if (!message) {
-      errors.message = 'Please enter a message.';
-    }
-
-    if (email.length > MAX_EMAIL_LENGTH) {
-      errors.email = `Email address must be shorter than ${MAX_EMAIL_LENGTH} characters.`;
-    }
-
-    if (message.length > MAX_MESSAGE_LENGTH) {
-      errors.message = `Message must be shorter than ${MAX_MESSAGE_LENGTH} characters.`;
     }
 
     if (Object.keys(errors).length > 0) {
@@ -92,6 +79,7 @@ export async function action({ request }) {
 
     return json({ success: true });
   } catch (error) {
+    console.error('Error in action handler:', error);
     return json({ errors: { server: 'There was an error sending your email. Please try again later.' } }, { status: 500 });
   }
 }
@@ -156,12 +144,12 @@ export const Contact = () => {
               autoComplete="off"
               label="Message"
               name="message"
-              maxLength={MAX_MESSAGE_LENGTH}
+              maxLength={MAX_EMAIL_LENGTH}
               {...message}
             />
             <Transition
               unmount
-              in={!sending && actionData?.errors}
+              in={!sending && actionData?.errors?.email}
               timeout={msToNum(tokens.base.durationM)}
             >
               {({ status: errorStatus, nodeRef }) => (
@@ -177,7 +165,6 @@ export const Contact = () => {
                     <div className={styles.formErrorMessage}>
                       <Icon className={styles.formErrorIcon} icon="error" />
                       {actionData?.errors?.email}
-                      {actionData?.errors?.message}
                     </div>
                   </div>
                 </div>
@@ -190,21 +177,14 @@ export const Contact = () => {
               onClick={() => {
                 const emailValue = email.value.trim();
                 const messageValue = message.value.trim();
-              
+                
                 if (!emailValue || !messageValue) {
                   alert("Please fill in both your email and message.");
                   return;
                 }
-              
-                // Reset foutmeldingen
-                if (actionData?.errors) {
-                  actionData.errors = {}; // Reset fouten
-                }
-              
-                // Verwijder de "From" e-mail uit de body van het bericht
+
                 const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(messageValue)}`;
-              
-                window.location.href = mailtoLink;  
+                window.location.href = mailtoLink;
               }}
             >
               Send message
@@ -230,7 +210,7 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS)}
             >
-              We’ll get back to you within a couple days, sit tight
+              We’ll get back to you within a couple of days, sit tight.
             </Text>
             <Button
               secondary
