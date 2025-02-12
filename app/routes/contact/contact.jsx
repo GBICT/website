@@ -197,13 +197,28 @@ export const Contact = () => {
               )}
             </Transition>
             <Button
-              className={styles.button}
-              data-status={status}
-              icon="send"
-              onClick={() => window.location.href = "mailto:info@gbict.nl?subject=Business Inquiry"}
-            >
-              Send message
-            </Button>
+             className={styles.button}
+             data-status={status}
+             icon="send"
+             onClick={() => {
+             const emailValue = email.value.trim();
+             const messageValue = message.value.trim();
+
+             if (!emailValue || !messageValue) {
+              alert("Please fill in both your email and message.");
+              return;
+           }
+
+             const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(
+            `From: ${emailValue}\n\n${messageValue}`
+           )}`;
+
+             window.location.href = mailtoLink;
+             }}
+           >
+             Send message
+           </Button>
+
 
           </Form>
         )}
