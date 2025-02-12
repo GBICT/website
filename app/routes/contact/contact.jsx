@@ -197,28 +197,33 @@ export const Contact = () => {
               )}
             </Transition>
             <Button
-             className={styles.button}
-             data-status={status}
-             icon="send"
-             onClick={() => {
-             const emailValue = email.value.trim();
-             const messageValue = message.value.trim();
+  className={styles.button}
+  data-status={status}
+  icon="send"
+  onClick={() => {
+    const emailValue = email.value.trim();
+    const messageValue = message.value.trim();
 
-             if (!emailValue || !messageValue) {
-              alert("Please fill in both your email and message.");
-              return;
-           }
+    if (!emailValue || !messageValue) {
+      alert("Please fill in both your email and message.");
+      return;
+    }
 
-             const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(
-            `From: ${emailValue}\n\n${messageValue}`
-           )}`;
+    // Verwijder de "From" email uit de body van het bericht
+    const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(
+      messageValue
+    )}`;
 
-             window.location.href = mailtoLink;
-             }}
-           >
-             Send message
-           </Button>
+    // Reset de foutmeldingen als de gebruiker op de knop klikt
+    if (actionData?.errors) {
+      actionData.errors = {}; // Foutmeldingen resetten
+    }
 
+    window.location.href = mailtoLink;
+  }}
+>
+  Send message
+</Button>
 
           </Form>
         )}
