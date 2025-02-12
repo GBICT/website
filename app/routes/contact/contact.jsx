@@ -203,23 +203,21 @@ export const Contact = () => {
   onClick={() => {
     const emailValue = email.value.trim();
     const messageValue = message.value.trim();
-
+  
     if (!emailValue || !messageValue) {
       alert("Please fill in both your email and message.");
       return;
     }
-
-    // Verwijder de "From" email uit de body van het bericht
-    const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(
-      messageValue
-    )}`;
-
-    // Reset de foutmeldingen als de gebruiker op de knop klikt
+  
+    // Reset foutmeldingen
     if (actionData?.errors) {
-      actionData.errors = {}; // Foutmeldingen resetten
+      actionData.errors = {}; // Reset fouten
     }
-
-    window.location.href = mailtoLink;
+  
+    // Verwijder de "From" e-mail uit de body van het bericht
+    const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(messageValue)}`;
+  
+    window.location.href = mailtoLink;  
   }}
 >
   Send message
