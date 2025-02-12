@@ -17,8 +17,6 @@ import { Form, useActionData, useNavigation } from '@remix-run/react';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
 
-
-
 export const meta = () => {
   return [
     {
@@ -34,13 +32,11 @@ const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
 
-export async function action({  request }) {
-  console.log('Starting action function');
+export async function action({ request }) {
   const brevoApiKey = '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';  // Use environment variable from Cloudflare
   const fromEmail = FROM_EMAIL;
 
   if (!brevoApiKey || !fromEmail) {
-    console.error('Missing Brevo API key or FROM_EMAIL');
     return json({ errors: { credentials: 'Brevo API key or FROM_EMAIL not set correctly.' } }, { status: 500 });
   }
 
@@ -50,8 +46,6 @@ export async function action({  request }) {
     const email = String(formData.get('email'));
     const message = String(formData.get('message'));
     const errors = {};
-
-    console.log('Received form data:', { isBot, email, message });
 
     if (isBot) return json({ success: true });
 
@@ -72,7 +66,6 @@ export async function action({  request }) {
     }
 
     if (Object.keys(errors).length > 0) {
-      console.error('Validation errors:', errors);
       return json({ errors }, { status: 400 });
     }
 
@@ -84,8 +77,6 @@ export async function action({  request }) {
       textContent: `From: ${email}\n\n${message}`,
     };
 
-    console.log('Sending email with payload:', emailPayload);
-
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
@@ -96,18 +87,14 @@ export async function action({  request }) {
     });
 
     if (!response.ok) {
-      console.error('Failed to send email:', response.statusText);
       throw new Error(`Failed to send email: ${response.statusText}`);
     }
 
-    console.log('Email sent successfully');
     return json({ success: true });
   } catch (error) {
-    console.error('Error in action handler:', error);
     return json({ errors: { server: 'There was an error sending your email. Please try again later.' } }, { status: 500 });
   }
 }
-
 
 export const Contact = () => {
   const errorRef = useRef();
@@ -197,32 +184,31 @@ export const Contact = () => {
               )}
             </Transition>
             <Button
-  className={styles.button}
-  data-status={status}
-  icon="send"
-  onClick={() => {
-    const emailValue = email.value.trim();
-    const messageValue = message.value.trim();
-  
-    if (!emailValue || !messageValue) {
-      alert("Please fill in both your email and message.");
-      return;
-    }
-  
-    // Reset foutmeldingen
-    if (actionData?.errors) {
-      actionData.errors = {}; // Reset fouten
-    }
-  
-    // Verwijder de "From" e-mail uit de body van het bericht
-    const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(messageValue)}`;
-  
-    window.location.href = mailtoLink;  
-  }}
->
-  Send message
-</Button>
-
+              className={styles.button}
+              data-status={status}
+              icon="send"
+              onClick={() => {
+                const emailValue = email.value.trim();
+                const messageValue = message.value.trim();
+              
+                if (!emailValue || !messageValue) {
+                  alert("Please fill in both your email and message.");
+                  return;
+                }
+              
+                // Reset foutmeldingen
+                if (actionData?.errors) {
+                  actionData.errors = {}; // Reset fouten
+                }
+              
+                // Verwijder de "From" e-mail uit de body van het bericht
+                const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(messageValue)}`;
+              
+                window.location.href = mailtoLink;  
+              }}
+            >
+              Send message
+            </Button>
           </Form>
         )}
       </Transition>
