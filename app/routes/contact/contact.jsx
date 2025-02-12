@@ -199,16 +199,12 @@ export const Contact = () => {
             <Button
               className={styles.button}
               data-status={status}
-              data-sending={sending}
-              style={getDelay(tokens.base.durationM, initDelay)}
-              disabled={sending}
-              loading={sending}
-              loadingText="Sending..."
               icon="send"
-              type="submit"
+              onClick={() => window.location.href = "mailto:info@gbict.nl?subject=Business Inquiry"}
             >
               Send message
             </Button>
+
           </Form>
         )}
       </Transition>
