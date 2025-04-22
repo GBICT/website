@@ -1,6 +1,6 @@
-__  __  __
-\ G\B\I\C\T\
- \ \/\ \ \ \
+__  __  __ __
+\ G\B\I\C\T\/
+ \ \/\ \ \ \/
   \/  \/  \/
 
 The humans.txt file explains the team, technology,
@@ -10,7 +10,7 @@ _______________________________________________________________________________
 
 DESIGNER | デザイナー
 
-Hussin Almoustafa
+Ghalil Biada
 Hand crafted design & web development
 
 Design tools:
@@ -19,9 +19,7 @@ Photoshop
 Blender
 
 
-github.com/hassoonsy2
-
-_______________________________________________________________________________
+__________________________________________________________________________
 
 TECHNOLOGY | テクノロジー
 
