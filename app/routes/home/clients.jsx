@@ -3,7 +3,7 @@ import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cssProps } from '~/utils/style';
 import styles from './clients.module.css';
 
@@ -84,8 +84,19 @@ function ClientLogo({ client }) {
 
 export function Clients({ id, visible, sectionRef, ...rest }) {
   const titleId = `${id}-title`;
-  // Which tile is "revealed" by tap (touch equivalent of hover)
+  // Which tile is "revealed" by a click/tap. The ring pauses while a tile is
+  // active, then resumes automatically after 5 seconds.
   const [active, setActive] = useState(null);
+  const resumeTimer = useRef();
+
+  useEffect(() => {
+    if (active === null) return undefined;
+    clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setActive(null), 5000);
+    return () => clearTimeout(resumeTimer.current);
+  }, [active]);
+
+  const activeClient = active !== null ? clients[active] : null;
 
   return (
     <Section
@@ -152,17 +163,21 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
                   <span className={styles.tileCard}>
                     <ClientLogo client={client} />
                   </span>
-                  <span className={styles.overlay} aria-hidden>
-                    <span className={styles.overlayName}>{client.name}</span>
-                    <span className={styles.overlayBlurb}>{client.blurb}</span>
-                  </span>
                 </button>
               ))}
             </div>
           </div>
-          <p className={styles.hint} aria-hidden>
-            Hover or tap a logo to see what we built
-          </p>
+        </div>
+
+        <div className={styles.readout} data-visible={visible} aria-live="polite">
+          {activeClient ? (
+            <>
+              <span className={styles.captionName}>{activeClient.name}</span>
+              <span className={styles.captionBlurb}>{activeClient.blurb}</span>
+            </>
+          ) : (
+            <span className={styles.hint}>Tap a logo to see what we built</span>
+          )}
         </div>
       </div>
     </Section>

@@ -29,6 +29,7 @@
 
   @media (--mediaMobile) {
     margin-bottom: 0;
+    padding-left: 0;
   }
 }
 
@@ -81,12 +82,14 @@
   }
 }
 
-/* --- 3D rotating ring around a globe --- */
+/* --- 3D rotating ring around a globe (all screen sizes) --- */
 .stage {
   --tileW: 220px;
   --tileH: 138px;
   --radius: 380px;
   --globe: 320px;
+  --tilePad: 24px;
+  --logoMax: 82px;
   --spin: 46s;
   --globeSpin: 28s;
 
@@ -109,6 +112,8 @@
     --tileH: 124px;
     --radius: 330px;
     --globe: 280px;
+    --tilePad: 22px;
+    --logoMax: 72px;
     height: 580px;
   }
 
@@ -117,6 +122,8 @@
     --tileH: 110px;
     --radius: 274px;
     --globe: 230px;
+    --tilePad: 18px;
+    --logoMax: 60px;
     height: 500px;
   }
 
@@ -125,6 +132,8 @@
     --tileH: 78px;
     --radius: 150px;
     --globe: 128px;
+    --tilePad: 12px;
+    --logoMax: 46px;
     --spin: 34s;
     height: 360px;
     perspective: 900px;
@@ -135,6 +144,8 @@
     --tileH: 68px;
     --radius: 128px;
     --globe: 108px;
+    --tilePad: 10px;
+    --logoMax: 38px;
     height: 320px;
     perspective: 760px;
   }
@@ -238,15 +249,23 @@
   inset: 0;
   transform-style: preserve-3d;
   animation: spin var(--spin) linear infinite;
-  /* Only the tiles should capture the pointer, so the ring pauses solely
-     when a logo is hovered — not when the cursor is merely nearby. */
+  /* Only the tiles capture the pointer, so hover pausing (desktop) reacts
+     to a logo, not merely being nearby. */
   pointer-events: none;
 }
 
-.ring:hover,
-.ring:focus-within,
+/* Pause while paused by a tap, or (desktop only) while hovering a logo.
+   Hover pausing is limited to non-touch to avoid iOS sticky-hover keeping
+   the ring frozen after a tap. */
 .ring[data-paused='true'] {
   animation-play-state: paused;
+}
+
+@media (--mediaNoTouch) {
+  .ring:hover,
+  .ring:focus-within {
+    animation-play-state: paused;
+  }
 }
 
 .tile {
@@ -259,7 +278,6 @@
   background: transparent;
   font: inherit;
   color: inherit;
-  text-align: left;
   transform: rotateY(var(--angle)) translateZ(var(--radius));
   backface-visibility: hidden;
   border-radius: 16px;
@@ -274,7 +292,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spaceXL);
+  padding: var(--tilePad);
   border-radius: 16px;
   background: oklch(22% 0.01 240 / 0.72);
   border: 1px solid color-mix(in lab, var(--white) 14%, transparent);
@@ -289,7 +307,6 @@
     transform var(--durationS) var(--bezierFastoutSlowin);
 }
 
-.tile:hover .tileCard,
 .tile:focus-visible .tileCard,
 .tile[data-active='true'] .tileCard {
   border-color: color-mix(in lab, var(--accent) 65%, transparent);
@@ -297,15 +314,21 @@
     0 26px 64px -26px oklch(0% 0 0 / 0.9),
     0 0 34px -6px color-mix(in lab, var(--accent) 55%, transparent),
     inset 0 1px 0 color-mix(in lab, var(--white) 14%, transparent);
+}
 
-  @media (--mediaUseMotion) {
-    transform: translateZ(24px) scale(1.03);
+@media (--mediaNoTouch) {
+  .tile:hover .tileCard {
+    border-color: color-mix(in lab, var(--accent) 65%, transparent);
+    box-shadow:
+      0 26px 64px -26px oklch(0% 0 0 / 0.9),
+      0 0 34px -6px color-mix(in lab, var(--accent) 55%, transparent),
+      inset 0 1px 0 color-mix(in lab, var(--white) 14%, transparent);
   }
 }
 
 .logo {
   max-width: 100%;
-  max-height: 82px;
+  max-height: var(--logoMax);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -323,61 +346,52 @@
   font-weight: var(--fontWeightBold);
   letter-spacing: -0.02em;
   color: var(--white);
+
+  @media (--mediaMobile) {
+    font-size: var(--fontSizeBodyM);
+  }
 }
 
-/* Hover blurb overlay */
-.overlay {
-  position: absolute;
-  inset: 0;
+/* Readable readout below the ring — shows the tapped client's details */
+.readout {
+  margin-top: var(--space2XL);
+  min-height: 3.6em;
+  padding: 0 var(--spaceL);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--spaceXS);
-  padding: var(--spaceL) var(--spaceXL);
-  border-radius: 16px;
-  overflow: hidden;
-  background: linear-gradient(
-    150deg,
-    color-mix(in lab, var(--accent) 26%, oklch(15% 0 0)) 0%,
-    oklch(12% 0 0) 100%
-  );
-  color: var(--white);
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  text-align: center;
   opacity: 0;
-  transition: opacity var(--durationS) var(--bezierFastoutSlowin);
+  transition: opacity var(--durationXL) ease var(--durationL);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+
+  @media (--mediaMobile) {
+    margin-top: var(--spaceL);
+  }
 }
 
-.tile:hover .overlay,
-.tile:focus-visible .overlay,
-.tile[data-active='true'] .overlay {
-  opacity: 1;
-}
-
-.overlayName {
-  font-size: var(--fontSizeBodyM);
+.captionName {
+  font-size: var(--fontSizeBodyL);
   font-weight: var(--fontWeightBold);
   line-height: 1.2;
+  color: var(--accent);
 }
 
-.overlayBlurb {
-  font-size: var(--fontSizeBodyXS);
-  line-height: 1.4;
-  color: color-mix(in lab, var(--white) 85%, transparent);
+.captionBlurb {
+  font-size: var(--fontSizeBodyM);
+  line-height: 1.5;
+  color: var(--textBody);
+  max-width: 46ch;
 }
 
 .hint {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: var(--fontSizeBodyXS);
+  font-size: var(--fontSizeBodyS);
   color: var(--textLight);
-  opacity: 0;
-  transition: opacity var(--durationXL) ease var(--durationXL);
-
-  .stage[data-visible='true'] & {
-    opacity: 1;
-  }
 }
 
 @keyframes spin {
