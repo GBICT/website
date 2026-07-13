@@ -1,0 +1,210 @@
+.clients {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: var(--space4XL);
+  padding-bottom: var(--space4XL);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (--mediaMobile) {
+    min-height: auto;
+    padding-top: var(--space5XL);
+    padding-bottom: var(--space4XL);
+  }
+}
+
+.content {
+  width: 100%;
+  max-width: var(--maxWidthL);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  max-width: var(--maxWidthM);
+  margin-bottom: var(--space3XL);
+
+  @media (--mediaMobile) {
+    margin-bottom: var(--space2XL);
+  }
+}
+
+.tag {
+  display: grid;
+  grid-template-columns: var(--space4XL) 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: var(--spaceL);
+}
+
+.tagText {
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  color: var(--primary);
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationM);
+  transition-delay: 0.6s;
+
+  @media (--mediaUseMotion) {
+    transition-property: opacity, transform;
+    transform: translate3d(calc(var(--spaceM) * -1), 0, 0);
+  }
+
+  &[data-visible='true'] {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.title {
+  margin-bottom: var(--spaceL);
+  opacity: 0;
+  transition: opacity var(--durationXL) ease var(--durationS);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+}
+
+.description {
+  color: var(--textBody);
+  opacity: 0;
+  transition: opacity var(--durationXL) ease var(--durationM);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceL);
+
+  @media (--mediaLaptop) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (--mediaTablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--mediaMobile) {
+    grid-template-columns: 1fr;
+    gap: var(--spaceM);
+  }
+}
+
+.item {
+  display: flex;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationL);
+  transition-delay: var(--delay, 0ms);
+
+  @media (--mediaUseMotion) {
+    transform: translate3d(0, var(--spaceL), 0);
+  }
+
+  &[data-visible='true'] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.card {
+  --cardBorder: color-mix(in lab, var(--text) 15%, transparent);
+
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceS);
+  padding: var(--spaceXL);
+  text-decoration: none;
+  color: var(--text);
+  background: color-mix(in lab, var(--backgroundLight) 80%, transparent);
+  border: 1px solid var(--cardBorder);
+  border-radius: 4px;
+  overflow: hidden;
+  isolation: isolate;
+  transition-property: transform, border-color, background;
+  transition-timing-function: var(--bezierFastoutSlowin);
+  transition-duration: var(--durationS);
+
+  /* Accent line that sweeps in along the top edge on hover/focus */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--durationM) var(--bezierFastoutSlowin);
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: color-mix(in lab, var(--accent) 60%, transparent);
+    background: var(--backgroundLight);
+
+    @media (--mediaUseMotion) {
+      transform: translate3d(0, -4px, 0);
+    }
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.cardName {
+  font-size: var(--fontSizeH5);
+  font-weight: var(--fontWeightMedium);
+  line-height: var(--lineHeightTitle);
+  color: var(--textTitle);
+}
+
+.cardWork {
+  flex: 1;
+  font-size: var(--fontSizeBodyS);
+  line-height: var(--lineHeightBody);
+  color: var(--textBody);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceXS);
+  margin-top: var(--spaceS);
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  color: var(--primary);
+}
+
+.cardArrow {
+  transition: transform var(--durationS) var(--bezierFastoutSlowin);
+
+  .card:hover &,
+  .card:focus-visible & {
+    @media (--mediaUseMotion) {
+      transform: translate3d(3px, -3px, 0);
+    }
+  }
+}
