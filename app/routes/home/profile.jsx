@@ -21,9 +21,16 @@ const ProfileText = ({ visible, titleId }) => (
       <DecoderText text="Hi there" start={visible} delay={500} />
     </Heading>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      We're a software, SaaS and AI company that builds technology that pays for itself:
-      time recovered, costs cut, and operations that finally run without friction.
-      Sitting on a process that costs more than it should? That's exactly what we fix.
+      At GBICT, we are dedicated to delivering exceptional
+      IT solutions tailored to your business needs. Our team of experts leverages
+      the latest technologies to drive innovation and efficiency,
+      helping you stay ahead in a competitive market.
+    </Text>
+    <Text className={styles.description} data-visible={visible} size="l" as="p">
+      Our mission is to empower businesses with the technology and insights they need to
+      achieve operational excellence, scalability, and a competitive edge.
+      We are committed to delivering solutions that not only meet but exceed our clients' expectations,
+      fostering growth and success in a rapidly evolving digital landscape.
     </Text>
   </Fragment>
 );
