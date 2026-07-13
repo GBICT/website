@@ -121,12 +121,22 @@
   }
 
   @media (--mediaMobile) {
-    --tileW: 132px;
-    --tileH: 86px;
-    --radius: 200px;
-    --globe: 158px;
-    --spin: 36s;
-    height: 400px;
+    --tileW: 120px;
+    --tileH: 78px;
+    --radius: 150px;
+    --globe: 128px;
+    --spin: 34s;
+    height: 360px;
+    perspective: 900px;
+  }
+
+  @media (--mediaMobileS) {
+    --tileW: 104px;
+    --tileH: 68px;
+    --radius: 128px;
+    --globe: 108px;
+    height: 320px;
+    perspective: 760px;
   }
 }
 
@@ -234,19 +244,27 @@
 }
 
 .ring:hover,
-.ring:focus-within {
+.ring:focus-within,
+.ring[data-paused='true'] {
   animation-play-state: paused;
 }
 
 .tile {
+  appearance: none;
   position: absolute;
   inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
   transform: rotateY(var(--angle)) translateZ(var(--radius));
   backface-visibility: hidden;
   border-radius: 16px;
-  text-decoration: none;
   outline: none;
-  cursor: default;
+  cursor: pointer;
   pointer-events: auto;
 }
 
@@ -272,7 +290,8 @@
 }
 
 .tile:hover .tileCard,
-.tile:focus-visible .tileCard {
+.tile:focus-visible .tileCard,
+.tile[data-active='true'] .tileCard {
   border-color: color-mix(in lab, var(--accent) 65%, transparent);
   box-shadow:
     0 26px 64px -26px oklch(0% 0 0 / 0.9),
@@ -328,7 +347,8 @@
 }
 
 .tile:hover .overlay,
-.tile:focus-visible .overlay {
+.tile:focus-visible .overlay,
+.tile[data-active='true'] .overlay {
   opacity: 1;
 }
 
@@ -344,60 +364,6 @@
   color: color-mix(in lab, var(--white) 85%, transparent);
 }
 
-/* --- Mobile: static grid with always-visible blurbs (no hover on touch) --- */
-.grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spaceM);
-  opacity: 0;
-  transition: opacity var(--durationXL) ease var(--durationM);
-
-  &[data-visible='true'] {
-    opacity: 1;
-  }
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--spaceXS);
-  padding: var(--spaceL) var(--spaceM);
-  border-radius: 14px;
-  background: oklch(22% 0.01 240 / 0.72);
-  border: 1px solid color-mix(in lab, var(--white) 14%, transparent);
-  box-shadow: 0 18px 44px -28px oklch(0% 0 0 / 0.9);
-}
-
-.cardLogo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 52px;
-  margin-bottom: var(--spaceXS);
-}
-
-.cardLogo .logo {
-  max-height: 40px;
-}
-
-.cardName {
-  font-size: var(--fontSizeBodyS);
-  font-weight: var(--fontWeightBold);
-  line-height: 1.2;
-  color: var(--white);
-}
-
-.cardBlurb {
-  font-size: var(--fontSizeBodyXS);
-  line-height: 1.4;
-  color: color-mix(in lab, var(--white) 78%, transparent);
-}
-
 .hint {
   position: absolute;
   bottom: 0;
@@ -411,10 +377,6 @@
 
   .stage[data-visible='true'] & {
     opacity: 1;
-  }
-
-  @media (--mediaMobile) {
-    display: none;
   }
 }
 

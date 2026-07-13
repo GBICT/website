@@ -3,15 +3,15 @@ import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
-import { useWindowSize } from '~/hooks';
-import { cssProps, media } from '~/utils/style';
+import { useState } from 'react';
+import { cssProps } from '~/utils/style';
 import styles from './clients.module.css';
 
 /**
- * Clients we've served. On desktop they orbit a globe as a rotating 3D ring
- * (hover a logo to pause it and reveal a short blurb). On phones the ring is
- * swapped for a static grid with the blurbs always visible, since touch has
- * no hover. Tiles are not links — clicking does nothing on purpose.
+ * Clients we've served, shown as a slowly rotating 3D ring of logos orbiting
+ * a globe — on every screen size, including mobile. Hover (mouse) or tap
+ * (touch) a logo to pause the ring and reveal a short blurb. Tiles are not
+ * links, so a tap only toggles the blurb — it never navigates away.
  * Blurbs marked "verify" are placeholders; refine with the real scope.
  */
 const clients = [
@@ -65,14 +65,14 @@ const clients = [
 
 const anglePerTile = 360 / clients.length;
 
-function ClientLogo({ client, className }) {
+function ClientLogo({ client }) {
   if (!client.logo) {
     return <span className={styles.tileText}>{client.name}</span>;
   }
 
   return (
     <img
-      className={className}
+      className={styles.logo}
       data-invert={client.invert}
       src={client.logo}
       alt={`${client.name} logo`}
@@ -84,9 +84,8 @@ function ClientLogo({ client, className }) {
 
 export function Clients({ id, visible, sectionRef, ...rest }) {
   const titleId = `${id}-title`;
-  const { width } = useWindowSize();
-  // width is undefined until mounted, so SSR/desktop render the ring
-  const isMobile = width > 0 && width <= media.mobile;
+  // Which tile is "revealed" by tap (touch equivalent of hover)
+  const [active, setActive] = useState(null);
 
   return (
     <Section
@@ -126,53 +125,45 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
           </Text>
         </header>
 
-        {isMobile ? (
-          <ul className={styles.grid} data-visible={visible}>
-            {clients.map(client => (
-              <li key={client.name} className={styles.card}>
-                <span className={styles.cardLogo}>
-                  <ClientLogo client={client} className={styles.logo} />
-                </span>
-                <span className={styles.cardName}>{client.name}</span>
-                <span className={styles.cardBlurb}>{client.blurb}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div className={styles.stage} data-visible={visible}>
-            <div className={styles.glow} aria-hidden />
-            <div className={styles.globe} aria-hidden>
-              <span className={styles.globeGrid} />
-              <span className={styles.globeShade} />
-              <span className={styles.globeGlare} />
-            </div>
-            <div className={styles.ringWrap}>
-              <div className={styles.ring} role="list" aria-label="Clients we've served">
-
-                {clients.map((client, index) => (
-                  <div
-                    key={client.name}
-                    className={styles.tile}
-                    role="listitem"
-                    aria-label={`${client.name}: ${client.blurb}`}
-                    style={cssProps({ angle: `${index * anglePerTile}deg` })}
-                  >
-                    <span className={styles.tileCard}>
-                      <ClientLogo client={client} className={styles.logo} />
-                    </span>
-                    <span className={styles.overlay} aria-hidden>
-                      <span className={styles.overlayName}>{client.name}</span>
-                      <span className={styles.overlayBlurb}>{client.blurb}</span>
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <p className={styles.hint} aria-hidden>
-              Hover a logo to pause and see what we built
-            </p>
+        <div className={styles.stage} data-visible={visible}>
+          <div className={styles.glow} aria-hidden />
+          <div className={styles.globe} aria-hidden>
+            <span className={styles.globeGrid} />
+            <span className={styles.globeShade} />
+            <span className={styles.globeGlare} />
           </div>
-        )}
+          <div className={styles.ringWrap}>
+            <div
+              className={styles.ring}
+              data-paused={active !== null}
+              aria-label="Clients we've served"
+            >
+              {clients.map((client, index) => (
+                <button
+                  type="button"
+                  key={client.name}
+                  className={styles.tile}
+                  data-active={active === index}
+                  aria-pressed={active === index}
+                  aria-label={`${client.name}: ${client.blurb}`}
+                  onClick={() => setActive(active === index ? null : index)}
+                  style={cssProps({ angle: `${index * anglePerTile}deg` })}
+                >
+                  <span className={styles.tileCard}>
+                    <ClientLogo client={client} />
+                  </span>
+                  <span className={styles.overlay} aria-hidden>
+                    <span className={styles.overlayName}>{client.name}</span>
+                    <span className={styles.overlayBlurb}>{client.blurb}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className={styles.hint} aria-hidden>
+            Hover or tap a logo to see what we built
+          </p>
+        </div>
       </div>
     </Section>
   );
