@@ -14,7 +14,7 @@ import styles from './clients.module.css';
 const clients = [
   {
     name: 'C2U Network',
-    blurb: 'Mobiscout app & Power BI in kiosk mode, plus an MDM rollout with full migration.',
+    blurb: 'Mobiscout app, Power BI kiosk mode & MDM rollout with migration.',
     url: 'https://c2unetwork.com/',
     logo: '/clients/c2u.png',
   },
@@ -26,9 +26,9 @@ const clients = [
   },
   {
     name: 'Boomerangzorg',
-    blurb: 'All systems, software and ongoing support delivered end to end.',
+    blurb: 'All systems, software and ongoing support.',
     url: 'https://boomerangzorg.nl/',
-    logo: '/clients/boomerang.svg',
+    logo: '/clients/boomerang-wit.svg',
   },
   {
     name: 'Wobouw',
@@ -39,7 +39,7 @@ const clients = [
   },
   {
     name: 'TMA Logistics',
-    blurb: 'Service desk built from the ground up with full automation.',
+    blurb: 'Service desk built from scratch, fully automated.',
     url: 'https://www.tmalogistics.nl/',
     logo: '/clients/tma.jpg',
   },
@@ -66,6 +66,7 @@ const clients = [
     blurb: 'IT solutions and systems integration.', // verify
     url: 'https://www.tdmsystems.nl/',
     logo: '/clients/tdm.png',
+    invert: true, // dark wordmark on transparent bg → force to white for the dark tile
   },
 ];
 
@@ -114,6 +115,11 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
 
         <div className={styles.stage} data-visible={visible}>
           <div className={styles.glow} aria-hidden />
+          <div className={styles.globe} aria-hidden>
+            <span className={styles.globeGrid} />
+            <span className={styles.globeShade} />
+            <span className={styles.globeGlare} />
+          </div>
           <div className={styles.ringWrap}>
             <div className={styles.ring}>
               {clients.map((client, index) => (
@@ -130,6 +136,7 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
                     {client.logo ? (
                       <img
                         className={styles.logo}
+                        data-invert={client.invert}
                         src={client.logo}
                         alt={`${client.name} logo`}
                         loading="lazy"
@@ -164,7 +171,7 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
             </div>
           </div>
           <p className={styles.hint} aria-hidden>
-            Hover to pause · hover a logo for details
+            Hover a logo to pause and see what we built
           </p>
         </div>
       </div>

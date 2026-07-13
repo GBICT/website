@@ -17,17 +17,18 @@
 
 .content {
   width: 100%;
-  max-width: var(--maxWidthL);
+  max-width: var(--maxWidthXL);
   display: flex;
   flex-direction: column;
 }
 
 .header {
   max-width: var(--maxWidthM);
-  margin-bottom: var(--space2XL);
+  margin-bottom: var(--spaceL);
+  padding-left: var(--spaceL);
 
   @media (--mediaMobile) {
-    margin-bottom: var(--spaceXL);
+    margin-bottom: 0;
   }
 }
 
@@ -80,20 +81,22 @@
   }
 }
 
-/* --- 3D rotating ring --- */
+/* --- 3D rotating ring around a globe --- */
 .stage {
-  --tileW: 190px;
-  --tileH: 120px;
-  --radius: 300px;
-  --spin: 42s;
+  --tileW: 220px;
+  --tileH: 138px;
+  --radius: 380px;
+  --globe: 320px;
+  --spin: 46s;
+  --globeSpin: 28s;
 
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 640px;
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1300px;
+  perspective: 1600px;
   opacity: 0;
   transition: opacity var(--durationXL) ease var(--durationM);
 
@@ -102,51 +105,122 @@
   }
 
   @media (--mediaLaptop) {
-    --tileW: 175px;
-    --tileH: 112px;
-    --radius: 270px;
-    height: 400px;
+    --tileW: 196px;
+    --tileH: 124px;
+    --radius: 330px;
+    --globe: 280px;
+    height: 580px;
   }
 
   @media (--mediaTablet) {
-    --tileW: 160px;
-    --tileH: 104px;
-    --radius: 240px;
-    height: 360px;
+    --tileW: 172px;
+    --tileH: 110px;
+    --radius: 274px;
+    --globe: 230px;
+    height: 500px;
   }
 
   @media (--mediaMobile) {
     --tileW: 132px;
-    --tileH: 88px;
-    --radius: 190px;
-    --spin: 34s;
-    height: 300px;
+    --tileH: 86px;
+    --radius: 200px;
+    --globe: 158px;
+    --spin: 36s;
+    height: 400px;
   }
 }
 
-/* Soft accent glow behind the ring, echoing the displacement sphere */
+/* Soft accent glow behind the whole stage */
 .glow {
   position: absolute;
-  width: min(680px, 80vw);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(820px, 88vw);
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    color-mix(in lab, var(--accent) 26%, transparent) 0%,
-    transparent 62%
+    color-mix(in lab, var(--accent) 22%, transparent) 0%,
+    transparent 60%
   );
-  filter: blur(24px);
-  opacity: 0.7;
+  filter: blur(26px);
   pointer-events: none;
   animation: pulse 8s ease-in-out infinite;
 }
 
+/* Holographic globe the ring orbits, like a planet with rings */
+.globe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--globe);
+  height: var(--globe);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 30% 26%, oklch(42% 0.07 205 / 0.85), transparent 48%),
+    radial-gradient(circle at 74% 80%, oklch(6% 0 0 / 0.9), transparent 58%),
+    radial-gradient(circle at 50% 50%, oklch(27% 0.04 220), oklch(12% 0.02 240));
+  box-shadow:
+    inset 0 0 60px oklch(6% 0 0 / 0.75),
+    inset 10px 8px 46px color-mix(in lab, var(--accent) 22%, transparent),
+    0 0 100px color-mix(in lab, var(--accent) 30%, transparent);
+}
+
+/* Rotating lat/long wireframe */
+.globeGrid {
+  position: absolute;
+  inset: -2px;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 24px,
+      color-mix(in lab, var(--accent) 42%, transparent) 24px 25px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 24px,
+      color-mix(in lab, var(--accent) 20%, transparent) 24px 25px
+    );
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black 55%, transparent 74%);
+  mask-image: radial-gradient(circle at 50% 50%, black 55%, transparent 74%);
+  animation: globeSpin var(--globeSpin) linear infinite;
+}
+
+/* Spherical shading for depth */
+.globeShade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 34% 30%,
+    transparent 38%,
+    oklch(5% 0 0 / 0.6) 100%
+  );
+}
+
+/* Specular highlight */
+.globeGlare {
+  position: absolute;
+  top: 13%;
+  left: 19%;
+  width: 34%;
+  height: 24%;
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(100% 0 0 / 0.45), transparent 70%);
+  filter: blur(6px);
+}
+
 .ringWrap {
   position: relative;
+  z-index: 2;
   width: var(--tileW);
   height: var(--tileH);
   transform-style: preserve-3d;
-  transform: rotateX(-7deg);
+  transform: rotateX(-11deg);
 }
 
 .ring {
@@ -154,11 +228,13 @@
   inset: 0;
   transform-style: preserve-3d;
   animation: spin var(--spin) linear infinite;
+  /* Only the tiles should capture the pointer, so the ring pauses solely
+     when a logo is hovered — not when the cursor is merely nearby. */
+  pointer-events: none;
 }
 
-/* Pause when the user interacts with the ring */
-.stage:hover .ring,
-.stage:focus-within .ring {
+.ring:hover,
+.ring:focus-within {
   animation-play-state: paused;
 }
 
@@ -167,9 +243,10 @@
   inset: 0;
   transform: rotateY(var(--angle)) translateZ(var(--radius));
   backface-visibility: hidden;
-  border-radius: 10px;
+  border-radius: 16px;
   text-decoration: none;
   outline: none;
+  pointer-events: auto;
 }
 
 .tileCard {
@@ -178,34 +255,54 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spaceL);
-  background: oklch(98% 0 0);
-  border: 1px solid color-mix(in lab, var(--text) 12%, transparent);
-  border-radius: 10px;
-  box-shadow: 0 18px 40px -22px color-mix(in lab, black 70%, transparent);
-  transition: border-color var(--durationS) var(--bezierFastoutSlowin);
+  padding: var(--spaceXL);
+  border-radius: 16px;
+  background: oklch(22% 0.01 240 / 0.72);
+  border: 1px solid color-mix(in lab, var(--white) 14%, transparent);
+  box-shadow:
+    0 26px 64px -30px oklch(0% 0 0 / 0.9),
+    inset 0 1px 0 color-mix(in lab, var(--white) 12%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    border-color var(--durationS) var(--bezierFastoutSlowin),
+    box-shadow var(--durationS) var(--bezierFastoutSlowin),
+    transform var(--durationS) var(--bezierFastoutSlowin);
+}
 
-  &[data-dark='true'] {
-    background: oklch(20% 0 0);
-    border-color: color-mix(in lab, white 16%, transparent);
+.tile:hover .tileCard,
+.tile:focus-visible .tileCard {
+  border-color: color-mix(in lab, var(--accent) 65%, transparent);
+  box-shadow:
+    0 26px 64px -26px oklch(0% 0 0 / 0.9),
+    0 0 34px -6px color-mix(in lab, var(--accent) 55%, transparent),
+    inset 0 1px 0 color-mix(in lab, var(--white) 14%, transparent);
+
+  @media (--mediaUseMotion) {
+    transform: translateZ(24px) scale(1.03);
   }
 }
 
 .logo {
   max-width: 100%;
-  max-height: 62px;
+  max-height: 82px;
   width: auto;
   height: auto;
   object-fit: contain;
   /* Round the square favicon-style logos so they read as app icons */
-  border-radius: 6px;
+  border-radius: 8px;
+
+  &[data-invert='true'] {
+    /* Dark wordmark on a transparent bg → force to solid white */
+    filter: brightness(0) invert(1);
+  }
 }
 
 .tileText {
-  font-size: var(--fontSizeH5);
+  font-size: var(--fontSizeH4);
   font-weight: var(--fontWeightBold);
   letter-spacing: -0.02em;
-  color: oklch(20% 0 0);
+  color: var(--white);
 }
 
 /* Hover blurb overlay */
@@ -216,12 +313,13 @@
   flex-direction: column;
   justify-content: center;
   gap: var(--spaceXS);
-  padding: var(--spaceM) var(--spaceL);
-  border-radius: 10px;
+  padding: var(--spaceL) var(--spaceXL);
+  border-radius: 16px;
+  overflow: hidden;
   background: linear-gradient(
     150deg,
-    color-mix(in lab, var(--accent) 24%, oklch(16% 0 0)) 0%,
-    oklch(14% 0 0) 100%
+    color-mix(in lab, var(--accent) 26%, oklch(15% 0 0)) 0%,
+    oklch(12% 0 0) 100%
   );
   color: var(--white);
   opacity: 0;
@@ -231,10 +329,6 @@
 .tile:hover .overlay,
 .tile:focus-visible .overlay {
   opacity: 1;
-}
-
-.tile:focus-visible .tileCard {
-  border-color: var(--accent);
 }
 
 .overlayName {
@@ -254,7 +348,7 @@
   align-items: center;
   gap: var(--spaceXS);
   margin-top: var(--spaceXS);
-  font-size: var(--fontSizeBodyXS);
+  font-size: var(--fontSizeBodyS);
   font-weight: var(--fontWeightMedium);
   color: var(--accent);
 }
@@ -285,23 +379,31 @@
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
+@keyframes globeSpin {
+  from {
+    background-position: 0 0, 0 0;
   }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.85;
+  to {
+    background-position: -240px 0, 0 0;
   }
 }
 
-/* Respect reduced motion: stop the spin and the glow pulse */
-@media (prefers-reduced-motion: reduce) {
-  .ring {
-    animation: none;
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.55;
   }
+  50% {
+    transform: translate(-50%, -50%) scale(1.06);
+    opacity: 0.8;
+  }
+}
+
+/* Respect reduced motion: stop all looping animation */
+@media (prefers-reduced-motion: reduce) {
+  .ring,
+  .globeGrid,
   .glow {
     animation: none;
   }
