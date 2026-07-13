@@ -36,9 +36,9 @@
 
 .content {
   display: grid;
-  grid-template-columns: 1fr 50%;
+  grid-template-columns: 1fr;
   grid-column-gap: var(--space2XL);
-  max-width: var(--maxWidthL);
+  max-width: var(--maxWidthM);
   width: 100%;
 
   @media (--mediaTablet) {
