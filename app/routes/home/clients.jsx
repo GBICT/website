@@ -17,47 +17,53 @@ import styles from './clients.module.css';
 const clients = [
   {
     name: 'C2U Network',
-    blurb: 'Mobiscout app, Power BI kiosk mode & MDM rollout with migration.',
+    blurb:
+      'We built the Mobiscout app, set up Power BI dashboards in kiosk mode and rolled out MDM across their devices with a full migration.',
     logo: '/clients/c2u.png',
   },
   {
     name: 'Zorgcentra Meerlanden',
-    blurb: 'Custom software, hands-on guidance and a full data migration.',
+    blurb:
+      'We developed custom software for their care processes, guided the team through it and handled a complete data migration.',
     logo: '/clients/meerlanden.png',
   },
   {
     name: 'Boomerangzorg',
-    blurb: 'All systems, software and ongoing support.',
+    blurb:
+      'We deliver and manage all of their systems and software end to end, with day-to-day support.',
     logo: '/clients/boomerang-wit.svg',
   },
   {
     name: 'Wobouw',
-    blurb: 'A native App Store app designed and built from scratch.',
+    blurb:
+      'We designed and built their native mobile app and shipped it to the App Store.',
     logo: '/clients/wobouw.png',
   },
   {
     name: 'TMA Logistics',
-    blurb: 'Service desk built from scratch, fully automated.',
+    blurb:
+      'We set up their service desk from the ground up and automated the workflows behind it.',
     logo: '/clients/tma.jpg',
   },
   {
     name: 'Passly Wallet',
-    blurb: 'A digital wallet solution.', // verify
+    blurb: 'We support the development of their digital wallet platform.', // verify
     logo: null,
   },
   {
     name: 'GBICT Energy',
-    blurb: 'IT partner for the energy sector.', // verify
+    blurb:
+      'IT partner for their energy operations — infrastructure, support and management.', // verify
     logo: '/clients/gbict-energy.png',
   },
   {
     name: 'FDMG',
-    blurb: 'IT services, management and support.', // verify
+    blurb: 'Managed IT: infrastructure, support and day-to-day management.', // verify
     logo: '/clients/fdmg.png',
   },
   {
     name: 'TDM Systems',
-    blurb: 'IT solutions and systems integration.', // verify
+    blurb: 'IT advice, management and systems integration.', // verify
     logo: '/clients/tdm.png',
     invert: true, // dark wordmark on transparent bg → force to white on the dark tile
   },
@@ -76,7 +82,6 @@ function ClientLogo({ client }) {
       data-invert={client.invert}
       src={client.logo}
       alt={`${client.name} logo`}
-      loading="lazy"
       draggable={false}
     />
   );
@@ -136,7 +141,11 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
           </Text>
         </header>
 
-        <div className={styles.stage} data-visible={visible}>
+        <div
+          className={styles.stage}
+          data-visible={visible}
+          onClick={() => setActive(null)}
+        >
           <div className={styles.glow} aria-hidden />
           <div className={styles.globe} aria-hidden>
             <span className={styles.globeGrid} />
@@ -157,7 +166,11 @@ export function Clients({ id, visible, sectionRef, ...rest }) {
                   data-active={active === index}
                   aria-pressed={active === index}
                   aria-label={`${client.name}: ${client.blurb}`}
-                  onClick={() => setActive(active === index ? null : index)}
+                  onClick={event => {
+                    // Don't let the tap bubble to the stage (which resumes)
+                    event.stopPropagation();
+                    setActive(active === index ? null : index);
+                  }}
                   style={cssProps({ angle: `${index * anglePerTile}deg` })}
                 >
                   <span className={styles.tileCard}>

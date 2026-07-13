@@ -294,13 +294,13 @@
   justify-content: center;
   padding: var(--tilePad);
   border-radius: 16px;
-  background: oklch(22% 0.01 240 / 0.72);
+  /* Solid-ish dark fill (no backdrop-filter — it renders blank inside a 3D
+     transform on iOS Safari, which hid the logos on mobile) */
+  background: oklch(21% 0.012 240 / 0.92);
   border: 1px solid color-mix(in lab, var(--white) 14%, transparent);
   box-shadow:
     0 26px 64px -30px oklch(0% 0 0 / 0.9),
     inset 0 1px 0 color-mix(in lab, var(--white) 12%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition:
     border-color var(--durationS) var(--bezierFastoutSlowin),
     box-shadow var(--durationS) var(--bezierFastoutSlowin),
@@ -386,7 +386,7 @@
   font-size: var(--fontSizeBodyM);
   line-height: 1.5;
   color: var(--textBody);
-  max-width: 46ch;
+  max-width: 52ch;
 }
 
 .hint {
