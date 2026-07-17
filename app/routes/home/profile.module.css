@@ -77,18 +77,19 @@
     opacity: 1;
   }
 
+  /* On phones the row won't fit six steps, so it stacks into a vertical
+     timeline: circles down the left, labels beside them, all six visible. */
   @media (--mediaMobile) {
     --circle: 38px;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: stretch;
     gap: var(--spaceL);
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: var(--spaceS);
   }
 }
 
 /* The grey line runs from the first circle's centre to the last. With six
-   equal-width nodes the outer circle centres sit one twelfth in from each end. */
+   equal-width nodes the outer circle centres sit one twelfth in from each end.
+   On mobile it turns vertical, down the left of the circles. */
 .track {
   position: absolute;
   top: calc(var(--circle) / 2 - 1px);
@@ -99,8 +100,12 @@
   overflow: hidden;
 
   @media (--mediaMobile) {
-    left: calc(var(--circle) / 2);
-    right: calc(var(--circle) / 2);
+    top: calc(var(--circle) / 2);
+    bottom: calc(var(--circle) / 2);
+    left: calc(var(--circle) / 2 - 1px);
+    right: auto;
+    width: 2px;
+    height: auto;
   }
 }
 
@@ -111,6 +116,11 @@
   transform: scaleX(var(--progress, 0));
   background: var(--accentText);
   will-change: transform;
+
+  @media (--mediaMobile) {
+    transform-origin: top;
+    transform: scaleY(var(--progress, 0));
+  }
 }
 
 .node {
@@ -124,8 +134,11 @@
   padding: 0 var(--spaceXS);
 
   @media (--mediaMobile) {
-    flex: 0 0 auto;
-    width: 96px;
+    flex: none;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spaceL);
     padding: 0;
   }
 }
@@ -171,6 +184,7 @@
 
   @media (--mediaMobile) {
     font-size: var(--fontSizeBodyS);
+    text-align: left;
   }
 }
 
@@ -184,6 +198,11 @@
 
   &[data-visible='true'] {
     opacity: 1;
+  }
+
+  @media (--mediaMobile) {
+    margin-top: var(--space2XL);
+    min-height: 0;
   }
 }
 
