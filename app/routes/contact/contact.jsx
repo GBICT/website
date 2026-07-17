@@ -30,8 +30,10 @@ const EMAIL_PATTERN = /(.+)@(.+){2,}\.(.+){2,}/;
 
 const FROM_EMAIL = 'info@gbict.nl';  // Hardcoded FROM_EMAIL address
 
-export async function action({ request }) {
-  const brevoApiKey = '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';  // Use environment variable from Cloudflare
+export async function action({ request, context }) {
+  // Never inline this key: the repository is public. It lives as an encrypted
+  // secret on the Cloudflare Pages project and is read at request time.
+  const brevoApiKey = context.cloudflare.env.BREVO_API_KEY;
   const fromEmail = FROM_EMAIL;
 
   if (!brevoApiKey || !fromEmail) {
