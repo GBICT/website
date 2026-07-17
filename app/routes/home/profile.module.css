@@ -87,15 +87,21 @@
   }
 }
 
-/* The grey line runs from the first circle's centre to the last. */
+/* The grey line runs from the first circle's centre to the last. With six
+   equal-width nodes the outer circle centres sit one twelfth in from each end. */
 .track {
   position: absolute;
   top: calc(var(--circle) / 2 - 1px);
-  left: calc(var(--circle) / 2);
-  right: calc(var(--circle) / 2);
+  left: calc(100% / 12);
+  right: calc(100% / 12);
   height: 2px;
   background: color-mix(in lab, var(--text) 15%, transparent);
   overflow: hidden;
+
+  @media (--mediaMobile) {
+    left: calc(var(--circle) / 2);
+    right: calc(var(--circle) / 2);
+  }
 }
 
 .trackFill {
@@ -115,10 +121,12 @@
   gap: var(--spaceS);
   flex: 1;
   min-width: 0;
+  padding: 0 var(--spaceXS);
 
   @media (--mediaMobile) {
     flex: 0 0 auto;
     width: 96px;
+    padding: 0;
   }
 }
 
@@ -150,14 +158,19 @@
 }
 
 .nodeLabel {
-  font-size: var(--fontSizeBodyS);
+  font-size: 0.8125rem;
   line-height: 1.3;
   color: var(--textLight);
-  max-width: 12ch;
+  max-width: 100%;
+  overflow-wrap: break-word;
   transition: color var(--durationM) ease;
 
   .node[data-done='true'] & {
     color: var(--textBody);
+  }
+
+  @media (--mediaMobile) {
+    font-size: var(--fontSizeBodyS);
   }
 }
 
