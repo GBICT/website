@@ -1,0 +1,94 @@
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceL);
+  width: 100%;
+}
+
+/* Honeypot: kept in the DOM but off screen, so bots fill it and people don't. */
+.botField {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spaceL);
+
+  @media (--mediaMobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  width: 100%;
+}
+
+.services {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.servicesLegend {
+  padding: 0;
+  margin-bottom: var(--spaceM);
+  font-size: var(--fontSizeBodyS);
+  color: var(--textLight);
+}
+
+.serviceOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spaceS);
+}
+
+.serviceOption {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border: 1px solid color-mix(in lab, var(--text) 25%, transparent);
+  border-radius: 8px;
+  color: var(--textBody);
+  font-size: var(--fontSizeBodyS);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color var(--durationXS) ease, color var(--durationXS) ease,
+    background var(--durationXS) ease;
+
+  &:hover {
+    border-color: color-mix(in lab, var(--text) 45%, transparent);
+  }
+
+  /* Whole pill lights up when its checkbox is checked. */
+  &:has(.serviceCheckbox:checked) {
+    border-color: var(--accentText);
+    color: var(--accentText);
+    background: color-mix(in lab, var(--accentText) 10%, transparent);
+  }
+
+  &:has(.serviceCheckbox:focus-visible) {
+    outline: 2px solid var(--accentText);
+    outline-offset: 2px;
+  }
+}
+
+/* Visually hidden but focusable and screen-reader accessible. */
+.serviceCheckbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}

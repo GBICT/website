@@ -2,15 +2,13 @@ import { Button } from '~/components/button';
 import { DecoderText } from '~/components/decoder-text';
 import { Divider } from '~/components/divider';
 import { Footer } from '~/components/footer';
+import { ContactFields } from '~/components/contact-form';
 import { Heading } from '~/components/heading';
 import { Icon } from '~/components/icon';
-import { Input } from '~/components/input';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
 import { tokens } from '~/components/theme-provider/theme';
 import { Transition } from '~/components/transition';
-import { useFormInput } from '~/hooks';
-import { useRef } from 'react';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import styles from './contact.module.css';
@@ -44,12 +42,17 @@ export async function action({ request, context }) {
   try {
     const formData = await request.formData();
     const isBot = String(formData.get('name'));
-    const email = String(formData.get('email'));
-    const message = String(formData.get('message'));
+    const firstName = String(formData.get('firstName') || '').trim();
+    const lastName = String(formData.get('lastName') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const services = formData.getAll('services').map(String);
+    const message = String(formData.get('message') || '').trim();
     const errors = {};
 
     if (isBot) return json({ success: true });
 
+    if (!firstName) errors.firstName = 'Please enter your first name.';
+    if (!lastName) errors.lastName = 'Please enter your last name.';
     if (!email || !EMAIL_PATTERN.test(email)) {
       errors.email = 'Please enter a valid email address.';
     }
@@ -58,12 +61,17 @@ export async function action({ request, context }) {
       return json({ errors }, { status: 400 });
     }
 
+    const fullName = `${firstName} ${lastName}`.trim();
     const emailPayload = {
       sender: { email: fromEmail, name: 'GBICT-website' },
       to: [{ email: 'info@gbict.nl' }],
-      replyTo: { email: email },
-      subject: `A message from ${email}`,
-      textContent: `From: ${email}\n\n${message}`,
+      replyTo: { email },
+      subject: `New enquiry from ${fullName}`,
+      textContent:
+        `Name: ${fullName}\n` +
+        `Email: ${email}\n` +
+        `Services: ${services.length ? services.join(', ') : '—'}\n\n` +
+        `${message || '(no message)'}`,
     };
 
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -87,9 +95,6 @@ export async function action({ request, context }) {
 }
 
 export const Contact = () => {
-  const errorRef = useRef();
-  const email = useFormInput('');
-  const message = useFormInput('');
   const initDelay = tokens.base.durationS;
   const actionData = useActionData();
   const { state } = useNavigation();
@@ -119,75 +124,25 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
             />
-            <Input
-              className={styles.botkiller}
-              label="Name"
-              name="name"
-              maxLength={MAX_EMAIL_LENGTH}
-            />
-            <Input
-              required
-              className={styles.input}
-              data-status={status}
-              style={getDelay(tokens.base.durationXS, initDelay)}
-              autoComplete="email"
-              label="Your email"
-              type="email"
-              name="email"
-              maxLength={MAX_EMAIL_LENGTH}
-              {...email}
-            />
-            <Input
-              required
-              multiline
-              className={styles.input}
-              data-status={status}
-              style={getDelay(tokens.base.durationS, initDelay)}
-              autoComplete="off"
-              label="Message"
-              name="message"
-              maxLength={MAX_EMAIL_LENGTH}
-              {...message}
-            />
-            <Transition
-              unmount
-              in={!sending && actionData?.errors?.email}
-              timeout={msToNum(tokens.base.durationM)}
-            >
-              {({ status: errorStatus, nodeRef }) => (
-                <div
-                  className={styles.formError}
-                  ref={nodeRef}
-                  data-status={errorStatus}
-                  style={cssProps({
-                    height: errorStatus ? errorRef.current?.offsetHeight : 0,
-                  })}
-                >
-                  <div className={styles.formErrorContent} ref={errorRef}>
-                    <div className={styles.formErrorMessage}>
-                      <Icon className={styles.formErrorIcon} icon="error" />
-                      {actionData?.errors?.email}
-                    </div>
+            <ContactFields data-status={status} errors={actionData?.errors} />
+            {(actionData?.errors?.server || actionData?.errors?.credentials) && (
+              <div className={styles.formError} role="alert">
+                <div className={styles.formErrorContent}>
+                  <div className={styles.formErrorMessage}>
+                    <Icon className={styles.formErrorIcon} icon="error" />
+                    {actionData.errors.server || actionData.errors.credentials}
                   </div>
                 </div>
-              )}
-            </Transition>
+              </div>
+            )}
             <Button
               className={styles.button}
               data-status={status}
+              type="submit"
+              disabled={sending}
+              loading={sending}
+              loadingText="Sending"
               icon="send"
-              onClick={() => {
-                const emailValue = email.value.trim();
-                const messageValue = message.value.trim();
-                
-                if (!emailValue || !messageValue) {
-                  alert("Please fill in both your email and message.");
-                  return;
-                }
-
-                const mailtoLink = `mailto:info@gbict.nl?subject=Business Inquiry&body=${encodeURIComponent(messageValue)}`;
-                window.location.href = mailtoLink;
-              }}
             >
               Send message
             </Button>
