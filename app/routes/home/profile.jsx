@@ -1,3 +1,4 @@
+import { DecoderText } from '~/components/decoder-text';
 import { Heading } from '~/components/heading';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
@@ -86,7 +87,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
               as="h2"
               id={titleId}
             >
-              Six steps to transform your business
+              <DecoderText text="Six steps to transform your business" start={shown} delay={300} />
             </Heading>
 
             <ol
