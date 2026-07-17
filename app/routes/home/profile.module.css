@@ -68,13 +68,87 @@
 }
 
 .description {
-  margin-bottom: var(--spaceXL);
+  margin-bottom: var(--spaceL);
   opacity: 0;
   transition: opacity var(--durationXL) ease var(--durationL);
 
   &[data-visible='true'] {
     opacity: 1;
   }
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceM);
+  opacity: 0;
+  transition: opacity var(--durationXL) ease var(--durationL);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: var(--spaceM);
+  align-items: start;
+
+  @media (--mediaMobile) {
+    grid-template-columns: 40px 1fr;
+    gap: var(--spaceS);
+  }
+
+  /* The active step pulls the accent colour; the rest stay quiet. */
+  &[data-active='true'] {
+    & .stepNumber,
+    & .stepTitle {
+      color: var(--accentText);
+    }
+
+    & .stepText {
+      color: var(--textBody);
+    }
+  }
+}
+
+/* The notch line draws itself in on the step that is currently active. */
+.stepDivider {
+  margin-top: 9px;
+}
+
+.stepBody {
+  display: grid;
+  gap: var(--spaceXS);
+}
+
+.stepNumber {
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  color: var(--textLight);
+  transition: color var(--durationM) ease;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--fontSizeH4);
+  font-weight: var(--fontWeightMedium);
+  line-height: 1.2;
+  color: var(--textTitle);
+  transition: color var(--durationM) ease;
+}
+
+.stepText {
+  margin: 0;
+  font-size: var(--fontSizeBodyS);
+  line-height: 1.6;
+  color: var(--textLight);
+  transition: color var(--durationM) ease;
 }
 
 .tag {
