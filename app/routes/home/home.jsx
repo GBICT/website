@@ -15,6 +15,7 @@ import { baseMeta } from '~/utils/meta';
 import { Intro } from './intro';
 import { Profile } from './profile';
 import { ProjectSummary } from './project-summary';
+import { ContactCta } from './contact-cta';
 import { useEffect, useRef, useState } from 'react';
 import config from '~/config.json';
 import styles from './home.module.css';
@@ -54,9 +55,10 @@ export const Home = () => {
   const projectTwo = useRef();
   const projectThree = useRef();
   const details = useRef();
+  const contact = useRef();
 
   useEffect(() => {
-    const sections = [intro, projectOne, projectTwo, projectThree, details];
+    const sections = [intro, projectOne, projectTwo, projectThree, details, contact];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -167,6 +169,11 @@ export const Home = () => {
         sectionRef={details}
         visible={visibleSections.includes(details.current)}
         id="details"
+      />
+      <ContactCta
+        sectionRef={contact}
+        visible={visibleSections.includes(contact.current)}
+        id="contact"
       />
       <Footer />
     </div>

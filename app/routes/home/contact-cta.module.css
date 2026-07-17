@@ -1,0 +1,70 @@
+.contact {
+  width: 100vw;
+  min-height: 100vh;
+  padding-top: var(--space4XL);
+  padding-bottom: var(--space4XL);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (--mediaTablet) {
+    padding-right: 80px;
+    padding-left: 160px;
+    min-height: auto;
+  }
+
+  @media (--mediaMobile), (--mediaMobileLS) {
+    padding-right: var(--spaceOuter);
+    padding-left: var(--spaceOuter);
+  }
+}
+
+.content {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity var(--durationXL) ease var(--durationM);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+}
+
+.title {
+  margin-bottom: var(--spaceM);
+}
+
+.intro {
+  margin-bottom: var(--space2XL);
+  color: var(--textBody);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
+  margin-top: var(--spaceXL);
+  align-self: flex-start;
+}
+
+.formError {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceS);
+  margin-top: var(--spaceL);
+  color: var(--error);
+  font-size: var(--fontSizeBodyS);
+}
+
+.formErrorIcon {
+  fill: var(--error);
+}
+
+.complete {
+  display: flex;
+  flex-direction: column;
+}
