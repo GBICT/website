@@ -33,8 +33,8 @@ const steps = [
   },
 ];
 
-const CYCLE_MS = 9000; // one full sweep of the line
-const HOLD_MS = 1600; // pause on a full line before it restarts
+const CYCLE_MS = 24000; // one full sweep of the line (~4s per step to read)
+const HOLD_MS = 2500; // pause on a full line before it restarts
 
 export const Profile = ({ id, visible, sectionRef }) => {
   const [focused, setFocused] = useState(false);
