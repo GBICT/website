@@ -112,6 +112,8 @@ const dark = {
   backgroundLight: 'oklch(21.78% 0 0)',
   primary: 'oklch(84.42% 0.19 202.24)',
   accent: 'oklch(84.42% 0.19 202.24)',
+  // Accent as text colour. On dark the accent itself has enough contrast.
+  accentText: 'oklch(84.42% 0.19 202.24)',
   error: 'oklch(65.91% 0.249 13.76)',
   text: 'var(--white)',
   textTitle: 'var(--text)',
@@ -124,6 +126,9 @@ const light = {
   backgroundLight: 'var(--white)',
   primary: 'var(--black)',
   accent: 'oklch(84.42% 0.19 202.24)',
+  // Accent as text colour. The accent itself only reaches 1.28:1 on the light
+  // background, so text uses a darker step of the same hue (5.0:1).
+  accentText: 'oklch(46.5% 0.19 202.24)',
   error: 'oklch(63.17% 0.259 25.41)',
   text: 'var(--black)',
   textTitle: 'color-mix(in lab, var(--text) 90%, transparent)',
