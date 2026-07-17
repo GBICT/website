@@ -77,6 +77,30 @@
   }
 }
 
+/* Horizontal progress line above the steps. The fill is scaled on the X axis
+   from the scroll position, so it runs left to right as you scroll. */
+.progressTrack {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  margin-bottom: var(--spaceXL);
+  background: color-mix(in lab, var(--text) 15%, transparent);
+  opacity: 0;
+  transition: opacity var(--durationXL) ease var(--durationL);
+
+  &[data-visible='true'] {
+    opacity: 1;
+  }
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: var(--accentText);
+  will-change: transform;
+}
+
 .steps {
   list-style: none;
   margin: 0;
@@ -93,19 +117,12 @@
   }
 }
 
+/* A step starts dimmed and lights up once the bar has passed it. */
 .step {
   display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: var(--spaceM);
-  align-items: start;
+  gap: var(--spaceXS);
 
-  @media (--mediaMobile) {
-    grid-template-columns: 40px 1fr;
-    gap: var(--spaceS);
-  }
-
-  /* The active step pulls the accent colour; the rest stay quiet. */
-  &[data-active='true'] {
+  &[data-done='true'] {
     & .stepNumber,
     & .stepTitle {
       color: var(--accentText);
@@ -115,16 +132,6 @@
       color: var(--textBody);
     }
   }
-}
-
-/* The notch line draws itself in on the step that is currently active. */
-.stepDivider {
-  margin-top: 9px;
-}
-
-.stepBody {
-  display: grid;
-  gap: var(--spaceXS);
 }
 
 .stepNumber {
@@ -139,7 +146,7 @@
   font-size: var(--fontSizeH4);
   font-weight: var(--fontWeightMedium);
   line-height: 1.2;
-  color: var(--textTitle);
+  color: var(--textLight);
   transition: color var(--durationM) ease;
 }
 
