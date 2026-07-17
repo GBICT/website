@@ -1,12 +1,9 @@
 import { DecoderText } from '~/components/decoder-text';
-import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
 import { Transition } from '~/components/transition';
-import { useInterval } from '~/hooks';
-import { useReducedMotion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './profile.module.css';
 
 const steps = [
@@ -20,7 +17,7 @@ const steps = [
   },
   {
     title: 'Fixed fee agreement',
-    text: 'One price, agreed before we start. No hourly billing, no surprises halfway. You know what it costs and what you get.',
+    text: 'Before we build, we lock the full scope, timeline and price. You know exactly where you stand, with no surprises and no budget overruns.',
   },
   {
     title: 'Development',
@@ -36,22 +33,39 @@ const steps = [
   },
 ];
 
-const stepDuration = 3500;
-
 export const Profile = ({ id, visible, sectionRef }) => {
   const [focused, setFocused] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const [progress, setProgress] = useState(0);
   const titleId = `${id}-title`;
 
-  // Cycle through the steps while the section is on screen. Passing a null delay
-  // stops the interval, so it idles off screen and stays put for reduced motion.
-  const cycling = (visible || focused) && !reduceMotion;
+  // The bar fills as the section travels up through the viewport, so scrolling
+  // drives it left to right instead of a timer. Progress runs from the section
+  // reaching a read line at 85% of the viewport to its top scrolling past it,
+  // a range the page can always cover since the section is the last content.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-  useInterval(
-    () => setActiveStep(step => (step + 1) % steps.length),
-    cycling ? stepDuration : null
-  );
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const rect = section.getBoundingClientRect();
+      const raw = (window.innerHeight * 0.85 - rect.top) / rect.height;
+      setProgress(Math.min(1, Math.max(0, raw)));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [sectionRef]);
 
   return (
     <Section
@@ -80,24 +94,28 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 From the first conversation to software that keeps earning its place. Six
                 steps, no surprises.
               </Text>
+
+              <div
+                className={styles.progressTrack}
+                data-visible={visible}
+                aria-hidden="true"
+              >
+                <div
+                  className={styles.progressFill}
+                  style={{ transform: `scaleX(${progress})` }}
+                />
+              </div>
+
               <ol className={styles.steps} data-visible={visible}>
                 {steps.map(({ title, text }, index) => (
                   <li
                     key={title}
                     className={styles.step}
-                    data-active={index === activeStep}
+                    data-done={progress >= (index + 0.5) / steps.length}
                   >
-                    <Divider
-                      className={styles.stepDivider}
-                      notchWidth="24px"
-                      notchHeight="4px"
-                      collapsed={index !== activeStep}
-                    />
-                    <div className={styles.stepBody}>
-                      <span className={styles.stepNumber}>{`0${index + 1}`}</span>
-                      <h4 className={styles.stepTitle}>{title}</h4>
-                      <p className={styles.stepText}>{text}</p>
-                    </div>
+                    <span className={styles.stepNumber}>{`0${index + 1}`}</span>
+                    <h4 className={styles.stepTitle}>{title}</h4>
+                    <p className={styles.stepText}>{text}</p>
                   </li>
                 ))}
               </ol>
