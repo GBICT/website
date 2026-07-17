@@ -1,5 +1,6 @@
 import { Button } from '~/components/button';
 import { ContactFields } from '~/components/contact-form';
+import { DecoderText } from '~/components/decoder-text';
 import { Heading } from '~/components/heading';
 import { Icon } from '~/components/icon';
 import { Section } from '~/components/section';
@@ -38,7 +39,7 @@ export const ContactCta = ({ id, visible, sectionRef }) => {
             ) : (
               <>
                 <Heading id={titleId} level={3} as="h2" className={styles.title}>
-                  Get in touch
+                  <DecoderText text="Get in touch" start={shown} delay={300} />
                 </Heading>
                 <Text size="l" as="p" className={styles.intro}>
                   Tell us what you need and we&apos;ll get back to you within a couple of
