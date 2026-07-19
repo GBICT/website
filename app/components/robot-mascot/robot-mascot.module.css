@@ -1,0 +1,132 @@
+.robot {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  overflow: visible;
+}
+
+.shell {
+  fill: color-mix(in lab, white 88%, var(--accentText));
+}
+
+.dark {
+  fill: color-mix(in lab, var(--background) 82%, black);
+}
+
+.screen {
+  fill: color-mix(in lab, var(--background) 80%, black);
+}
+
+.accent {
+  fill: var(--accentText);
+}
+
+.wire {
+  stroke: color-mix(in lab, white 70%, var(--accentText));
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.smile {
+  stroke: var(--accentText);
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.eye {
+  fill: var(--accentText);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.core {
+  fill: var(--accentText);
+}
+
+.tip,
+.tipB {
+  fill: var(--accentText);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (--mediaUseMotion) {
+  .float {
+    animation: float 4.5s ease-in-out infinite;
+  }
+
+  .eye {
+    animation: blink 5s ease-in-out infinite;
+  }
+
+  .tip {
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+
+  .tipB {
+    animation: pulse 2.2s ease-in-out 0.6s infinite;
+  }
+
+  .core {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+
+  .glow {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: glow 4.5s ease-in-out infinite;
+  }
+}
+
+.glow {
+  fill: var(--accentText);
+  opacity: 0.2;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@keyframes blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scaleX(1.12);
+  }
+}

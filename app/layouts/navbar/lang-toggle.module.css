@@ -1,0 +1,39 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--monoFontStack);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.option {
+  padding: 4px 6px;
+  border: none;
+  background: none;
+  color: color-mix(in lab, var(--text) 50%, transparent);
+  cursor: pointer;
+  transition: color var(--durationM) ease;
+}
+
+.option[data-active='true'] {
+  color: var(--accentText);
+}
+
+@media (hover: hover) {
+  .option:hover {
+    color: var(--textBody);
+  }
+
+  .option[data-active='true']:hover {
+    color: var(--accentText);
+  }
+}
+
+.sep {
+  color: color-mix(in lab, var(--text) 30%, transparent);
+}
+
+.toggle[data-mobile='true'] {
+  font-size: 18px;
+}

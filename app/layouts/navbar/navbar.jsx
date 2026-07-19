@@ -9,7 +9,9 @@ import { useEffect, useRef, useState } from 'react';
 import { cssProps, media, msToNum, numToMs } from '~/utils/style';
 import { NavToggle } from './nav-toggle';
 import { ThemeToggle } from './theme-toggle';
+import { LangToggle } from './lang-toggle';
 import { navLinks, socialLinks } from './nav-data';
+import { useUi } from '~/i18n';
 import config from '~/config.json';
 import styles from './navbar.module.css';
 
@@ -18,6 +20,7 @@ export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [target, setTarget] = useState();
   const { theme } = useTheme();
+  const ui = useUi();
   const location = useLocation();
   const windowSize = useWindowSize();
   const headerRef = useRef();
@@ -155,18 +158,18 @@ export const Navbar = () => {
       <NavToggle onClick={() => setMenuOpen(!menuOpen)} menuOpen={menuOpen} />
       <nav className={styles.nav}>
         <div className={styles.navList}>
-          {navLinks.map(({ label, pathname }) => (
+          {navLinks.map(({ key, pathname }) => (
             <RouterLink
               unstable_viewTransition
               prefetch="intent"
               to={pathname}
-              key={label}
+              key={key}
               data-navbar-item
               className={styles.navLink}
               aria-current={getCurrent(pathname)}
               onClick={handleNavItemClick}
             >
-              {label}
+              {ui.nav[key]}
             </RouterLink>
           ))}
         </div>
@@ -175,12 +178,12 @@ export const Navbar = () => {
       <Transition unmount in={menuOpen} timeout={msToNum(tokens.base.durationL)}>
         {({ visible, nodeRef }) => (
           <nav className={styles.mobileNav} data-visible={visible} ref={nodeRef}>
-            {navLinks.map(({ label, pathname }, index) => (
+            {navLinks.map(({ key, pathname }, index) => (
               <RouterLink
                 unstable_viewTransition
                 prefetch="intent"
                 to={pathname}
-                key={label}
+                key={key}
                 className={styles.mobileNavLink}
                 data-visible={visible}
                 aria-current={getCurrent(pathname)}
@@ -191,14 +194,18 @@ export const Navbar = () => {
                   ),
                 })}
               >
-                {label}
+                {ui.nav[key]}
               </RouterLink>
             ))}
             <NavbarIcons />
-            <ThemeToggle isMobile />
+            <div className={styles.mobileToggles}>
+              <LangToggle isMobile />
+              <ThemeToggle isMobile />
+            </div>
           </nav>
         )}
       </Transition>
+      {!isMobile && <LangToggle data-navbar-item />}
       {!isMobile && <ThemeToggle data-navbar-item />}
     </header>
   );

@@ -7,6 +7,7 @@ import { Section } from '~/components/section';
 import { Text } from '~/components/text';
 import { Transition } from '~/components/transition';
 import { useFetcher } from '@remix-run/react';
+import { useUi } from '~/i18n';
 import styles from './contact-cta.module.css';
 
 export const ContactCta = ({ id, visible, sectionRef }) => {
@@ -14,6 +15,7 @@ export const ContactCta = ({ id, visible, sectionRef }) => {
   const sending = fetcher.state === 'submitting';
   const data = fetcher.data;
   const titleId = `${id}-title`;
+  const t = useUi().home.contact;
 
   return (
     <Section
@@ -30,20 +32,19 @@ export const ContactCta = ({ id, visible, sectionRef }) => {
             {data?.success ? (
               <div className={styles.complete} aria-live="polite">
                 <Heading level={3} as="h2" className={styles.title}>
-                  Message sent
+                  {t.sentTitle}
                 </Heading>
                 <Text size="l" as="p" className={styles.intro}>
-                  Thanks. We&apos;ll get back to you within a couple of days.
+                  {t.sentIntro}
                 </Text>
               </div>
             ) : (
               <>
                 <Heading id={titleId} level={3} as="h2" className={styles.title}>
-                  <DecoderText text="Get in touch" start={shown} delay={300} />
+                  <DecoderText text={t.title} start={shown} delay={300} />
                 </Heading>
                 <Text size="l" as="p" className={styles.intro}>
-                  Tell us what you need and we&apos;ll get back to you within a couple of
-                  days.
+                  {t.intro}
                 </Text>
                 <fetcher.Form method="post" action="/contact" className={styles.form}>
                   <ContactFields errors={data?.errors} />
@@ -58,10 +59,10 @@ export const ContactCta = ({ id, visible, sectionRef }) => {
                     className={styles.button}
                     disabled={sending}
                     loading={sending}
-                    loadingText="Sending"
+                    loadingText={t.sending}
                     icon="send"
                   >
-                    Send message
+                    {t.send}
                   </Button>
                 </fetcher.Form>
               </>

@@ -1,0 +1,12 @@
+.cursor {
+  display: inline-block;
+  margin-left: 0.1em;
+  color: var(--accentText);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

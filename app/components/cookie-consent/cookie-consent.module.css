@@ -1,0 +1,85 @@
+.banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1024;
+  display: flex;
+  justify-content: center;
+  padding: var(--spaceM);
+  pointer-events: none;
+}
+
+.inner {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  gap: var(--spaceXL);
+  padding: var(--spaceL) var(--spaceXL);
+  border-radius: 12px;
+  border: 1px solid color-mix(in lab, var(--text) 16%, transparent);
+  background: color-mix(in lab, var(--background) 82%, black);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+
+  @media (--mediaMobile) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spaceL);
+    padding: var(--spaceL);
+  }
+}
+
+.text {
+  flex: 1;
+  margin: 0;
+  font-size: var(--fontSizeBodyS);
+  line-height: 1.5;
+  color: var(--textBody);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spaceS);
+  flex-shrink: 0;
+
+  @media (--mediaMobile) {
+    justify-content: flex-end;
+  }
+}
+
+.accept,
+.decline {
+  padding: var(--spaceS) var(--spaceXL);
+  border-radius: 8px;
+  font-size: var(--fontSizeBodyS);
+  font-weight: var(--fontWeightMedium);
+  cursor: pointer;
+  transition: opacity var(--durationM) ease, border-color var(--durationM) ease,
+    color var(--durationM) ease;
+}
+
+.accept {
+  border: none;
+  background: var(--accentText);
+  color: var(--background);
+}
+
+.decline {
+  border: 1px solid color-mix(in lab, var(--text) 24%, transparent);
+  background: none;
+  color: var(--textBody);
+}
+
+@media (hover: hover) {
+  .accept:hover {
+    opacity: 0.9;
+  }
+
+  .decline:hover {
+    border-color: var(--accentText);
+    color: var(--accentText);
+  }
+}

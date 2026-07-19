@@ -1,0 +1,7 @@
+.video {
+  height: auto;
+
+  @media (--mediaMobile) {
+    width: 100%;
+  }
+}

@@ -10,6 +10,7 @@ import { Text } from '~/components/text';
 import { tokens } from '~/components/theme-provider/theme';
 import { Transition } from '~/components/transition';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
+import { useUi } from '~/i18n';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
@@ -18,8 +19,9 @@ export const meta = () => {
   return [
     {
       title: 'Contact',
-      description: 'Send us a message if you’re interested in discussing a project or if you just want to say hi',
-    }
+      description:
+        'Stuur ons een bericht als je een project wilt bespreken of gewoon even hallo wilt zeggen.',
+    },
   ];
 };
 
@@ -99,6 +101,7 @@ export const Contact = () => {
   const actionData = useActionData();
   const { state } = useNavigation();
   const sending = state === 'submitting';
+  const t = useUi().contactPage;
 
   return (
     <Section className={styles.contact}>
@@ -117,7 +120,7 @@ export const Contact = () => {
               as="h1"
               style={getDelay(tokens.base.durationXS, initDelay, 0.3)}
             >
-              <DecoderText text="Say hello" start={status !== 'exited'} delay={300} />
+              <DecoderText text={t.sayHello} start={status !== 'exited'} delay={300} />
             </Heading>
             <Divider
               className={styles.divider}
@@ -141,10 +144,10 @@ export const Contact = () => {
               type="submit"
               disabled={sending}
               loading={sending}
-              loadingText="Sending"
+              loadingText={t.sending}
               icon="send"
             >
-              Send message
+              {t.sendMessage}
             </Button>
           </Form>
         )}
@@ -158,7 +161,7 @@ export const Contact = () => {
               className={styles.completeTitle}
               data-status={status}
             >
-              Message Sent
+              {t.sentTitle}
             </Heading>
             <Text
               size="l"
@@ -167,7 +170,7 @@ export const Contact = () => {
               data-status={status}
               style={getDelay(tokens.base.durationXS)}
             >
-              We’ll get back to you within a couple of days, sit tight.
+              {t.sentText}
             </Text>
             <Button
               secondary
@@ -178,7 +181,7 @@ export const Contact = () => {
               href="/"
               icon="chevron-right"
             >
-              Back to homepage
+              {t.backHome}
             </Button>
           </div>
         )}

@@ -1,0 +1,34 @@
+.wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+}
+
+.bar {
+  width: 4px;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accentText);
+  transform: scaleY(0.25);
+  transform-origin: center;
+  animation: pulse 1.1s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.09s);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+    transform: scaleY(0.5);
+  }
+}

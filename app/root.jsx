@@ -18,7 +18,50 @@ import { Error } from '~/layouts/error';
 import { VisuallyHidden } from '~/components/visually-hidden';
 import { Navbar } from '~/layouts/navbar';
 import { Progress } from '~/components/progress';
+import { CookieConsent } from '~/components/cookie-consent/cookie-consent';
+import { detectLocale } from '~/i18n';
 import config from '~/config.json';
+
+const GTM_ID = 'GTM-TCXZ7GPS';
+
+// Google Consent Mode v2: default everything to denied (GDPR), restore a prior
+// choice, then load Google Tag Manager. Runs after hydration (so it never mutates
+// the server-rendered head during hydration), and consent default is set before
+// GTM loads, so nothing tracks until the visitor accepts.
+function initAnalytics() {
+  if (typeof window === 'undefined' || window.__gbictAnalytics) return;
+  window.__gbictAnalytics = true;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+  try {
+    if (localStorage.getItem('gbict-consent') === 'granted') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+      });
+    }
+  } catch (error) {
+    // ignore
+  }
+  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  document.head.appendChild(script);
+}
 import styles from './root.module.css';
 import './reset.module.css';
 import './global.module.css';
@@ -66,9 +109,10 @@ export const loader = async ({ request, context }) => {
 
   const session = await getSession(request.headers.get('Cookie'));
   const theme = session.get('theme') || 'dark';
+  const locale = session.get('locale') || detectLocale(request.headers.get('accept-language') || '');
 
   return json(
-    { canonicalUrl, theme },
+    { canonicalUrl, theme, locale },
     {
       headers: {
         'Set-Cookie': await commitSession(session),
@@ -78,7 +122,7 @@ export const loader = async ({ request, context }) => {
 };
 
 export default function App() {
-  let { canonicalUrl, theme } = useLoaderData();
+  let { canonicalUrl, theme, locale } = useLoaderData();
   const fetcher = useFetcher();
   const { state } = useNavigation();
 
@@ -100,8 +144,12 @@ export default function App() {
     );
   }, []);
 
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -142,6 +190,7 @@ export default function App() {
           >
             <Outlet />
           </main>
+          <CookieConsent />
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
