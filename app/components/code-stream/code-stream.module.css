@@ -1,0 +1,50 @@
+.stream {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 18%,
+    black 82%,
+    transparent
+  );
+}
+
+.col {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  padding: var(--space3XL) var(--spaceOuter);
+  will-change: transform;
+
+  @media (--mediaTablet) {
+    padding-left: 160px;
+  }
+}
+
+@media (--mediaUseMotion) {
+  .col {
+    animation: rise 34s linear infinite;
+  }
+}
+
+.line {
+  font-family: var(--monoFontStack);
+  font-size: var(--fontSizeBodyS);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: color-mix(in lab, var(--text) 20%, transparent);
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-50%);
+  }
+}

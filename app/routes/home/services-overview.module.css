@@ -1,0 +1,270 @@
+.section {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space5XL);
+  padding-bottom: var(--space5XL);
+  padding-right: var(--spaceOuter);
+  padding-left: var(--spaceOuter);
+
+  @media (--mediaTablet) {
+    padding-right: 80px;
+    padding-left: 160px;
+  }
+
+  @media (--mediaMobile) {
+    padding-right: var(--spaceOuter);
+    padding-left: var(--spaceOuter);
+  }
+
+  @media (--mediaMobile), (--mediaMobileLS) {
+    padding-top: var(--space4XL);
+    padding-bottom: var(--space4XL);
+  }
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--maxWidthL);
+}
+
+.head {
+  max-width: 52ch;
+  margin-bottom: var(--space3XL);
+  opacity: 0;
+  transition: opacity var(--durationXL) ease;
+}
+
+.head[data-visible='true'] {
+  opacity: 1;
+}
+
+.kicker {
+  margin-bottom: var(--spaceM);
+  font-family: var(--monoFontStack);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accentText);
+}
+
+.title {
+  margin-bottom: var(--spaceL);
+  max-width: 20ch;
+  color: var(--textTitle);
+}
+
+.lead {
+  max-width: 48ch;
+  color: var(--textBody);
+}
+
+/* --- Card grid --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceL);
+
+  @media (--mediaMobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 380px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Always a dark media tile, in both themes. In light mode it reads as an
+     intentional premium video tile on the light page (with a soft shadow),
+     never a clashing black block. */
+  background: #0b0d11;
+  box-shadow: 0 26px 60px -34px rgba(8, 12, 20, 0.55);
+  overflow: hidden;
+  text-decoration: none;
+  color: #f4f6f8;
+  opacity: 0;
+  transition: opacity var(--durationL) ease var(--delay, 0ms), border-color var(--durationM) ease,
+    transform var(--durationM) ease;
+
+  @media (--mediaUseMotion) {
+    transform: translate3d(0, var(--spaceXL), 0);
+  }
+
+  @media (--mediaMobile) {
+    min-height: 320px;
+  }
+}
+
+.grid[data-visible='true'] .card {
+  opacity: 1;
+
+  @media (--mediaUseMotion) {
+    transform: none;
+  }
+}
+
+@media (hover: hover) {
+  .card:hover {
+    border-color: color-mix(in lab, var(--accentText) 45%, transparent);
+  }
+
+  .card:hover .video {
+    transform: scale(1.04);
+  }
+
+  .card:hover .arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* video / visual layer */
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--durationL) var(--bezierFastoutSlowin);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 11, 0.94) 6%,
+    rgba(6, 8, 11, 0.68) 38%,
+    rgba(6, 8, 11, 0.12) 72%,
+    transparent 100%
+  );
+}
+
+/* text over the visual */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space2XL);
+}
+
+.cardTitle {
+  margin-bottom: var(--spaceS);
+  color: #f4f6f8;
+}
+
+.cardBlurb {
+  max-width: 42ch;
+  margin-bottom: var(--spaceL);
+  color: rgba(244, 246, 248, 0.74);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceXS);
+  font-size: var(--fontSizeBodyM);
+  font-weight: var(--fontWeightMedium);
+  color: var(--accentText);
+}
+
+.arrow {
+  transition: transform var(--durationM) ease;
+}
+
+/* --- AI fallback (no clip yet) --- */
+.aiFallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spaceM);
+  padding: var(--space2XL);
+  background: radial-gradient(
+    120% 80% at 70% 20%,
+    color-mix(in lab, var(--accentText) 12%, transparent),
+    transparent 60%
+  );
+}
+
+.ask {
+  align-self: flex-start;
+  max-width: 70%;
+  margin: 0;
+  padding: var(--spaceS) var(--spaceM);
+  border-radius: 10px 10px 10px 2px;
+  background: color-mix(in lab, var(--text) 10%, transparent);
+  font-size: var(--fontSizeBodyS);
+  color: var(--textLight);
+}
+
+.ans {
+  margin: 0;
+  max-width: 80%;
+  font-size: var(--fontSizeBodyM);
+  line-height: 1.4;
+  color: var(--textTitle);
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--accentText);
+}
+
+@media (--mediaUseMotion) {
+  .cursor {
+    animation: blink 1.1s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- foot --- */
+.foot {
+  margin-top: var(--space2XL);
+}
+
+.allLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceS);
+  padding: var(--spaceM) var(--space2XL);
+  border-radius: 8px;
+  border: 1px solid color-mix(in lab, var(--text) 22%, transparent);
+  color: var(--textTitle);
+  font-size: var(--fontSizeBodyM);
+  font-weight: var(--fontWeightMedium);
+  text-decoration: none;
+  transition: border-color var(--durationM) ease, color var(--durationM) ease;
+}
+
+@media (hover: hover) {
+  .allLink:hover {
+    border-color: var(--accentText);
+    color: var(--accentText);
+  }
+}

@@ -1,5 +1,6 @@
 import { Input } from '~/components/input';
 import { useFormInput } from '~/hooks';
+import { useUi } from '~/i18n';
 import styles from './contact-form.module.css';
 
 export const SERVICE_OPTIONS = [
@@ -17,6 +18,7 @@ export const ContactFields = ({ errors }) => {
   const lastName = useFormInput('');
   const email = useFormInput('');
   const message = useFormInput('');
+  const t = useUi().contactPage.form;
 
   return (
     <div className={styles.fields}>
@@ -33,7 +35,7 @@ export const ContactFields = ({ errors }) => {
         <Input
           required
           className={styles.field}
-          label="First name"
+          label={t.firstName}
           name="firstName"
           maxLength={100}
           error={errors?.firstName}
@@ -42,7 +44,7 @@ export const ContactFields = ({ errors }) => {
         <Input
           required
           className={styles.field}
-          label="Last name"
+          label={t.lastName}
           name="lastName"
           maxLength={100}
           error={errors?.lastName}
@@ -54,7 +56,7 @@ export const ContactFields = ({ errors }) => {
         required
         className={styles.field}
         type="email"
-        label="Email"
+        label={t.email}
         name="email"
         autoComplete="email"
         maxLength={512}
@@ -63,9 +65,9 @@ export const ContactFields = ({ errors }) => {
       />
 
       <fieldset className={styles.services}>
-        <legend className={styles.servicesLegend}>What can we help you with?</legend>
+        <legend className={styles.servicesLegend}>{t.servicesLegend}</legend>
         <div className={styles.serviceOptions}>
-          {SERVICE_OPTIONS.map(option => (
+          {t.services.map(option => (
             <label key={option} className={styles.serviceOption}>
               <input
                 type="checkbox"
@@ -82,7 +84,7 @@ export const ContactFields = ({ errors }) => {
       <Input
         multiline
         className={styles.field}
-        label="Message (optional)"
+        label={t.message}
         name="message"
         maxLength={4096}
         {...message}

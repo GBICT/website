@@ -14,7 +14,7 @@ import { cssProps, msToNum, numToMs } from '~/utils/style';
 import styles from './post.module.css';
 import { Link as RouterLink } from '@remix-run/react';
 
-export const Post = ({ children, title, date, banner, timecode }) => {
+export const Post = ({ children, title, date, banner, bannerPoster, timecode }) => {
   const scrollToHash = useScrollToHash();
   const imageRef = useRef();
   const [dateTime, setDateTime] = useState(null);
@@ -33,7 +33,9 @@ export const Post = ({ children, title, date, banner, timecode }) => {
     scrollToHash(event.currentTarget.href);
   };
 
+  const isVideoBanner = /\.(mp4|webm)$/i.test(banner || '');
   const placeholder = `${banner?.split('.')[0]}-placeholder.jpg`;
+  const poster = bannerPoster || (isVideoBanner ? placeholder : banner);
 
   return (
     <article className={styles.post}>
@@ -41,12 +43,26 @@ export const Post = ({ children, title, date, banner, timecode }) => {
         {banner && (
           <div className={styles.banner} ref={imageRef}>
             <div className={styles.bannerImage}>
-              <Image role="presentation" src={banner} placeholder={placeholder} alt="" />
+              {isVideoBanner ? (
+                <video
+                  poster={poster}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-hidden
+                >
+                  <source src={banner} type={`video/${banner.split('.').pop()}`} />
+                </video>
+              ) : (
+                <Image role="presentation" src={banner} placeholder={placeholder} alt="" />
+              )}
             </div>
             <div className={styles.bannerImageBlur}>
               <Image
                 role="presentation"
-                src={placeholder}
+                src={isVideoBanner ? poster : placeholder}
                 placeholder={placeholder}
                 alt=""
               />
