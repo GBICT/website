@@ -149,6 +149,7 @@
 
     @media (--mediaMobile) {
       inset: calc(var(--spaceOuter) * -1);
+      height: 42vh;
     }
 
     &::after {
@@ -184,6 +185,10 @@
       height: 70vh;
       width: 100%;
       object-fit: cover;
+
+      @media (--mediaMobile) {
+        height: 42vh;
+      }
     }
   }
 
