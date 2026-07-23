@@ -1,3 +1,18 @@
+# ── Beveiliging (geldt voor de hele site) ──────────────────────────────
+# Toegevoegd 2026-07-23. HSTS/frame/nosniff/referrer/permissions worden
+# afgedwongen; CSP staat bewust in Report-Only zodat 3D (glb/draco/wasm),
+# fonts en inline scripts niet breken. Check de rapportages, scherp daarna
+# aan en zet 'm dan om naar Content-Security-Policy.
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-XSS-Protection: 0
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:; media-src 'self' blob:; worker-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+
 /favicon.ico
   Cache-Control: public, max-age=3600, s-maxage=3600
 /favicon.svg
