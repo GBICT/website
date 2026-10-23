@@ -15,6 +15,7 @@ import GothamBook from '~/assets/fonts/gotham-book.woff2';
 import GothamMedium from '~/assets/fonts/gotham-medium.woff2';
 import { useEffect } from 'react';
 import { Error } from '~/layouts/error';
+import { organizationSchema } from '~/utils/meta';
 import { VisuallyHidden } from '~/components/visually-hidden';
 import { Navbar } from '~/layouts/navbar';
 import { Progress } from '~/components/progress';
@@ -92,7 +93,7 @@ export const links = () => [
 export const loader = async ({ request, context }) => {
   const { url } = request;
   const { pathname } = new URL(url);
-  const pathnameSliced = pathname.endsWith('/') ? pathname.slice(0, -1) : url;
+  const pathnameSliced = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   const canonicalUrl = `${config.url}${pathnameSliced}`;
 
   const { getSession, commitSession } = createCookieSessionStorage({
@@ -164,6 +165,11 @@ export default function App() {
         <Meta />
         <Links />
         <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:url" content={canonicalUrl} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
       </head>
       <body data-theme={theme}>
          {/* Google Tag Manager (noscript) */}

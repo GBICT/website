@@ -38,7 +38,7 @@ export const Post = ({ children, title, date, banner, bannerPoster, timecode }) 
   const poster = bannerPoster || (isVideoBanner ? placeholder : banner);
 
   return (
-    <article className={styles.post}>
+    <article className={styles.post} lang="en">
       <Section>
         {banner && (
           <div className={styles.banner} ref={imageRef}>

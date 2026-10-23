@@ -87,7 +87,7 @@ export const meta = () => {
   return baseMeta({
     title: metaService.title,
     description: metaService.summary,
-    prefix: 'Services',
+    service: SLUG,
   });
 };
 

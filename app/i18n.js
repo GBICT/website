@@ -3,8 +3,10 @@ import { useRouteLoaderData } from '@remix-run/react';
 export const locales = ['nl', 'en'];
 export const defaultLocale = 'nl';
 
-// Dutch browsers get Dutch, everyone else English.
+// Dutch browsers get Dutch, everyone else English. No header at all (search
+// engines, link previews) gets Dutch, so the indexed text matches the Dutch meta.
 export function detectLocale(acceptLanguage = '') {
+  if (!acceptLanguage.trim()) return defaultLocale;
   return /(^|[,;\s])nl\b/i.test(acceptLanguage) ? 'nl' : 'en';
 }
 
