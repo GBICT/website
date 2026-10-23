@@ -12,9 +12,9 @@ export async function loader() {
 
 export function meta() {
   return baseMeta({
-    title: 'Articles',
+    title: 'Artikelen',
     description:
-      'A collection of technical design and development articles. May contain incoherent ramblings.',
+      'Wie GBICT is, hoe we werken en de producten die we zelf bouwen.',
   });
 }
 

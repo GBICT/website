@@ -96,7 +96,7 @@ const copy = {
 };
 
 export const meta = () => {
-  return baseMeta({ title: copy.nl.title, description: copy.nl.description, prefix: 'Services' });
+  return baseMeta({ title: copy.nl.title, description: copy.nl.description, service: 'ux-ui-web-design' });
 };
 
 export const UxUiWebDesign = () => {

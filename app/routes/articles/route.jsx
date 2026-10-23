@@ -24,7 +24,7 @@ export async function loader({ request }) {
 
 export function meta({ data }) {
   const { title, abstract } = data.frontmatter;
-  return baseMeta({ title, description: abstract, prefix: '', ogImage: data.ogImage });
+  return baseMeta({ title, description: abstract, ogImage: data.ogImage });
 }
 
 export default function Articles() {

@@ -12,17 +12,16 @@ import { Transition } from '~/components/transition';
 import { cssProps, msToNum, numToMs } from '~/utils/style';
 import { useUi } from '~/i18n';
 import { Form, useActionData, useNavigation } from '@remix-run/react';
+import { baseMeta } from '~/utils/meta';
 import styles from './contact.module.css';
 import { json } from '@remix-run/cloudflare';
 
 export const meta = () => {
-  return [
-    {
-      title: 'Contact',
-      description:
-        'Stuur ons een bericht als je een project wilt bespreken of gewoon even hallo wilt zeggen.',
-    },
-  ];
+  return baseMeta({
+    title: 'Contact',
+    description:
+      'Stuur ons een bericht als je een project wilt bespreken of gewoon even hallo wilt zeggen.',
+  });
 };
 
 const MAX_EMAIL_LENGTH = 512;

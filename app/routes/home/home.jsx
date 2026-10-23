@@ -11,9 +11,9 @@ import styles from './home.module.css';
 
 export const meta = () => {
   return baseMeta({
-    title: 'Software, systems and AI for your business',
+    title: 'Software op maat, automatisering en AI',
     description:
-      'GBICT builds custom software, business systems, automation and AI, shaped around the way your organisation actually works. You try a working prototype before you commit.',
+      'GBICT uit Almere bouwt software op maat, bedrijfssystemen, automatisering en AI rond hoe jouw organisatie echt werkt. Je ziet eerst een werkend prototype.',
   });
 };
 

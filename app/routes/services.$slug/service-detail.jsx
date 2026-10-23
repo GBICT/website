@@ -120,7 +120,7 @@ export const meta = ({ data }) => {
   return baseMeta({
     title: data.service.title,
     description: data.service.summary,
-    prefix: 'Services',
+    service: data.service.slug,
   });
 };
 

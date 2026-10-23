@@ -46,9 +46,18 @@ const copy = {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Services',
+    title: 'Diensten',
     description:
-      'Custom software, automation and AI, built around how your organisation works. From analysis to delivery.',
+      'Software op maat, automatisering, CRM, koppelingen en AI, gebouwd rond hoe jouw organisatie werkt. Van analyse tot oplevering.',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: getFaqs('nl').map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    },
   });
 };
 
